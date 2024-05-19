@@ -1,32 +1,48 @@
+# Compiler to be used.
 CC = gcc
 
-#Name of the main executable of the project
+# Name for the main executable of the project.
 TARGET_NAME = source
 
-#Directories/files related to the build of the project
+# Directories/Files related to the build of the project.
 BUILD_DIR = build
 
 OBJ_DIR = $(BUILD_DIR)/obj
-BIN_DIR = $(BUILD_DIR)/BIN_DIR
+BIN_DIR = $(BUILD_DIR)/bin
 
 COMPILATION_DATABASE = $(BUILD_DIR)/compile_commands.json
 
+# Location of the project final executable.
 TARGET = $(BUILD_DIR)/bin/$(TARGET_NAME)
 
+# Files to be included in the compilation.
 SOURCES_WITH_HEADERS = \
-								#src
+											 
 
+
+# Directories to be included in the compilation.
 INCLUDE_DIRS = \
-								./src \
+							 ./src \
 
-MAIN_FILE = src/main.c 
+# Entry point for the project.
+MAIN_FILE = src/main.c
 
+# All *.c files.
 SOURCES = \
-								$(MAIN_FILE) \
-								$(SOURCES_WITH_HEADERS)
+					$(MAIN_FILE) \
+					$(SOURCES_WITH_HEADERS)
 
+# All *.h files.
 HEADERS = \
-								$(SOURCES_WITH_HEADERS:.c=.h) \
+					$(SOURCES_WITH_HEADERS:.c=.h) \
+					
+
+# Files (*.c or *.h) to be ignored in the `format` target.
+IGNORE_FILES_FORMAT =
+
+# Files (*.c or *.h) to be included in the `format` target.
+HEADERS_FORMAT = $(filter-out $(IGNORE_FILES_FORMAT), $(HEADERS))
+SOURCES_FORMAT = $(filter-out $(IGNORE_FILES_FORMAT), $(SOURCES))
 
 # Names for the Object files generated from the compilation.
 OBJECT_NAMES = $(SOURCES:.c=.o)
@@ -42,7 +58,7 @@ WFLAGS += -Wno-unused-parameter -Wno-unused-variable \
 # Flags to be passed in the compilation and linking process, respectively.
 CFLAGS = -std=c99
 CFLAGS += $(WFLAGS) $(addprefix -I, $(INCLUDE_DIRS))
-LDFLAGS = $(addprefix -I, $(INCLUDE_DIRS)) #-lintelfpgaup
+LDFLAGS = $(addprefix -I, $(INCLUDE_DIRS)) -lintelfpgaup
 
 help: ## Show all the available targets.
 	@echo "Available targets:"
@@ -67,5 +83,13 @@ run: $(TARGET) ## Runs the project with `root` permissions.
 
 clean: ## Remove all files generated in the compilation.
 	@rm -rf $(BUILD_DIR)
+
+format: ## Formats code using `clang-format`.
+ifeq (, $(shell which clang-format 2> /dev/null))
+	$(error `clang-format` wasn't found! Consider installing it trough your package manager)
+else
+	@clang-format -i $(SOURCES_FORMAT) $(HEADERS_FORMAT)
+endif
+
 
 .PHONY: all help format build run clean
