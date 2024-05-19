@@ -88,7 +88,7 @@ format: ## Formats code using `clang-format`.
 ifeq (, $(shell which clang-format 2> /dev/null))
 	$(error `clang-format` wasn't found! Consider installing it trough your package manager)
 else
-	@clang-format -i $(SOURCES_FORMAT) $(HEADERS_FORMAT)
+	@clang-format -i -style=llvm $(SOURCES_FORMAT) $(HEADERS_FORMAT)
 endif
 
 
