@@ -17,7 +17,7 @@ TARGET = $(BUILD_DIR)/bin/$(TARGET_NAME)
 
 # Files to be included in the compilation.
 SOURCES_WITH_HEADERS = \
-											 
+											 src/app/GraphSync.c \
 
 
 # Directories to be included in the compilation.
@@ -58,7 +58,7 @@ WFLAGS += -Wno-unused-parameter -Wno-unused-variable \
 # Flags to be passed in the compilation and linking process, respectively.
 CFLAGS = -std=c99
 CFLAGS += $(WFLAGS) $(addprefix -I, $(INCLUDE_DIRS))
-LDFLAGS = $(addprefix -I, $(INCLUDE_DIRS)) -lintelfpgaup
+LDFLAGS = $(addprefix -I, $(INCLUDE_DIRS)) 
 
 help: ## Show all the available targets.
 	@echo "Available targets:"
