@@ -1,2 +1,23 @@
 -> Precisamos saber qual a ISA do NIOS II e como utilizá-la?
--> É possível formatar todo o documento de uma única vez?
+-> Funções que poderíamos implementar também:
+
+    animate_sprite: Uma função para animar os sprites ao longo do tempo, alterando seus frames de acordo com uma sequência predefinida de imagens.
+
+    check_collision_bounds: Uma função para verificar se um sprite está dentro dos limites da tela ou de uma área específica, evitando que ele saia da área visível.
+
+    handle_input: Uma função para lidar com a entrada do jogador, como movimento do teclado ou cliques do mouse, e atualizar as posições dos sprites de acordo.
+
+    update_game_state: Uma função para atualizar o estado do jogo, processando eventos, verificando colisões, atualizando pontuações, etc.
+
+    render_sprites: Uma função para renderizar os sprites na tela, levando em consideração sua posição, estado e quaisquer efeitos visuais.
+
+    load_level: Uma função para carregar e inicializar um novo nível do jogo, incluindo a posição inicial dos sprites, configurações de fundo, obstáculos, etc.
+
+    save_game_state: Uma função para salvar o estado atual do jogo, permitindo que os jogadores continuem de onde pararam em uma sessão anterior.
+
+    handle_powerups: Uma função para lidar com power-ups ou itens especiais que os sprites podem coletar durante o jogo, alterando seu comportamento ou concedendo benefícios temporários.
+
+    play_sound: Uma função para reproduzir efeitos sonoros ou músicas de fundo durante o jogo, melhorando a experiência auditiva do jogador.
+
+    spawn_enemy: Uma função para gerar novos inimigos em locais específicos da tela ou em intervalos de tempo definidos, aumentando gradualmente a dificuldade do jogo.
+
