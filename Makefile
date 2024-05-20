@@ -17,7 +17,7 @@ TARGET = $(BUILD_DIR)/bin/$(TARGET_NAME)
 
 # Files to be included in the compilation.
 SOURCES_WITH_HEADERS = \
-											 
+											 src/app/GraphSync.c \
 
 
 # Directories to be included in the compilation.
@@ -35,6 +35,7 @@ SOURCES = \
 # All *.h files.
 HEADERS = \
 					$(SOURCES_WITH_HEADERS:.c=.h) \
+					src/utils/ui.h \
 					
 
 # Files (*.c or *.h) to be ignored in the `format` target.
@@ -58,7 +59,7 @@ WFLAGS += -Wno-unused-parameter -Wno-unused-variable \
 # Flags to be passed in the compilation and linking process, respectively.
 CFLAGS = -std=c99
 CFLAGS += $(WFLAGS) $(addprefix -I, $(INCLUDE_DIRS))
-LDFLAGS = $(addprefix -I, $(INCLUDE_DIRS)) -lintelfpgaup
+LDFLAGS = $(addprefix -I, $(INCLUDE_DIRS)) 
 
 help: ## Show all the available targets.
 	@echo "Available targets:"
@@ -88,7 +89,7 @@ format: ## Formats code using `clang-format`.
 ifeq (, $(shell which clang-format 2> /dev/null))
 	$(error `clang-format` wasn't found! Consider installing it trough your package manager)
 else
-	@clang-format -i $(SOURCES_FORMAT) $(HEADERS_FORMAT)
+	@clang-format -i -style=llvm $(SOURCES_FORMAT) $(HEADERS_FORMAT)
 endif
 
 
