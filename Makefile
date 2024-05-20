@@ -35,6 +35,7 @@ SOURCES = \
 # All *.h files.
 HEADERS = \
 					$(SOURCES_WITH_HEADERS:.c=.h) \
+					src/utils/ui.h \
 					
 
 # Files (*.c or *.h) to be ignored in the `format` target.
