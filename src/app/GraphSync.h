@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "utils/ui.h"
+
 /**
  * @brief Structure representing a movable sprite.
  *
