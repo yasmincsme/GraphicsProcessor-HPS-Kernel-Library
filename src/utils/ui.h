@@ -6,3 +6,8 @@
 #define UPPER_LEFT 3
 #define BOTTOM_LEFT 5
 #define BOTTOM_RIGHT 7
+
+#define WBR 0000
+#define WSM 0001
+#define WBM 0010
+#define DP 0011
