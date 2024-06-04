@@ -2,9 +2,12 @@
 #include <linux/init.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
-#include <src\utils\ui.h>
 
-#include "/home/aluno/TEC499/LabExemples/auxFiles/address_map_arm.h"
+#include "address_map_arm.h"
+
+#define WRREG 0xc0
+#define DATA_B 0x70
+#define DATA_A 0x80
 
 void *LW_virtual;                                  /*Lightweight bridge base address*/
 volatile int *WRREG_ptr, *DATA_A_ptr, *DATA_B_ptr; /*Start pulse, Data A bus and Data B bus base address*/
@@ -22,9 +25,6 @@ static int __init initialize_module(void) {
 }
 
 /*Default function for cleanup and unload the module */
-static void __exit cleanup_module(void) {
+void __exit cleanup_module(void) {
   iounmap(LW_virtual);
 }
-
-module_init(initialize_module);
-module_exit(cleanup_module);
