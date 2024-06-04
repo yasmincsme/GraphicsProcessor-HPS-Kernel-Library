@@ -2,12 +2,26 @@
 #include <linux/init.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
+#include <asm/uaccess.h>
+#include <linux/cdev.h>
+#include <linux/device.h>
+#include <linux/fs.h>
 
 #include "address_map_arm.h"
 
 #define WRREG 0xc0
 #define DATA_B 0x70
 #define DATA_A 0x80
+
+static int device_open(struct inode *, struct file *);
+static int device_release(struct inode *, struct file *);
+static ssize_t device_read(struct file *, char *, size_t, loff_t *);
+static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
+
+static struct file_operands device_fops = {
+    .read = device_read, .write = device_write, .open = device_open, .release = device_release};
+
+
 
 void *LW_virtual;                                  /*Lightweight bridge base address*/
 volatile int *WRREG_ptr, *DATA_A_ptr, *DATA_B_ptr; /*Start pulse, Data A bus and Data B bus base address*/
