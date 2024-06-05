@@ -1,11 +1,11 @@
 #include <asm/io.h>
-#include <linux/init.h>
-#include <linux/kernel.h>
-#include <linux/module.h>
 #include <asm/uaccess.h>
 #include <linux/cdev.h>
 #include <linux/device.h>
 #include <linux/fs.h>
+#include <linux/init.h>
+#include <linux/kernel.h>
+#include <linux/module.h>
 
 #include "address_map_arm.h"
 
@@ -21,13 +21,14 @@ static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 static struct file_operands device_fops = {
     .read = device_read, .write = device_write, .open = device_open, .release = device_release};
 
-
+#define DEV_NAME "gpp_kernel_module"
 
 void *LW_virtual;                                  /*Lightweight bridge base address*/
 volatile int *WRREG_ptr, *DATA_A_ptr, *DATA_B_ptr; /*Start pulse, Data A bus and Data B bus base address*/
 
 /*Default function for initialization of the module*/
 static int __init initialize_module(void) {
+  printk(KERN_ALERT "Module Initialized with Success!");
   /*generate a virtual address for the FPGA lightweight bridge*/
   LW_virtual = ioremap_nocache(LW_BRIDGE_BASE, LW_BRIDGE_SPAN);
 
