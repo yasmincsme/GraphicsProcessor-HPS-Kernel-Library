@@ -16,8 +16,10 @@
 #define LW_VIRTUAL 0xFF200000
 #define DATA_A_OFFSET 0x70
 #define DATA_B_OFFSET 0x80
+#define WRREG_OFFSET 0xc0
 #define DATA_A_PHYS_ADDR (LW_VIRTUAL + DATA_A_OFFSET)
 #define DATA_B_PHYS_ADDR (LW_VIRTUAL + DATA_B_OFFSET)
+#define WREG_PHYS_ADDR (LW_VIRTUAL + WRREG_OFFSET)
 
 // AONDE FICA O BRIDGE_SPAN?? E USA ESSA JOÇA?
 
@@ -30,6 +32,7 @@ static struct device *dataBusDevice = NULL;
 
 void __iomem *data_a_mem;
 void __iomem *data_b_mem;
+void __iomem *wreg_mem;
 
 /*Declaring default functions and the file operations*/
 static ssize_t data_bus_read(struct file *, char *, size_t, loff_t *);
@@ -74,6 +77,7 @@ static int __init data_bus_init(void) {
   data_a_mem = ioremap(DATA_A_PHYS_ADDR, sizeof(uint32_t));
   if (!data_a_mem) {
     printk(KERN_ALERT "Failed to map memory for DATA_A\n");
+    iounmap(data_a_mem);
     device_destroy(dataBusClass, MKDEV(majorNumber, 0));
     class_destroy(dataBusClass);
     unregister_chrdev(majorNumber, DEVICE_NAME);
@@ -83,7 +87,17 @@ static int __init data_bus_init(void) {
   data_b_mem = ioremap(DATA_B_PHYS_ADDR, sizeof(uint32_t));
   if (!data_b_mem) {
     printk(KERN_ALERT "Failed to map memory for DATA_B\n");
-    iounmap(data_a_mem);
+    iounmap(data_b_mem);
+    device_destroy(dataBusClass, MKDEV(majorNumber, 0));
+    class_destroy(dataBusClass);
+    unregister_chrdev(majorNumber, DEVICE_NAME);
+    return -EIO;
+  }
+
+  wreg_mem = ioremap(WREG_PHYS_ADDR, sizeof(uint32_t));
+  if (!wreg_mem) {
+    printk(KERN_ALERT "Failed to map memory for WREG\n");
+    iounmap(wreg_mem);
     device_destroy(dataBusClass, MKDEV(majorNumber, 0));
     class_destroy(dataBusClass);
     unregister_chrdev(majorNumber, DEVICE_NAME);
@@ -96,6 +110,7 @@ static int __init data_bus_init(void) {
 static void __exit data_bus_exit(void) {
   iounmap(data_a_mem);
   iounmap(data_b_mem);
+  iounmap(wreg_mem);
   device_destroy(dataBusClass, MKDEV(majorNumber, 0));
   class_destroy(dataBusClass);
   unregister_chrdev(majorNumber, DEVICE_NAME);
@@ -124,6 +139,9 @@ static ssize_t data_bus_write(struct file *filep, const char *buffer, size_t len
   uint32_t data_a;
   uint32_t data_b;
 
+  uint32_t start = 0x00000000;
+  iowrite32(start, wreg_mem);
+
   if (copy_from_user(&data, buffer, sizeof(data))) {
     return -EFAULT;
   }
@@ -134,11 +152,14 @@ static ssize_t data_bus_write(struct file *filep, const char *buffer, size_t len
   iowrite32(data_a, data_a_mem);
   iowrite32(data_b, data_b_mem);
 
+  start = 0x00000001;
+  iowrite32(start, wreg_mem);
+
   return sizeof(data);
 }
 
 static int data_bus_open(struct inode *inode, struct file *file) {
-  printk(KERNEL_INFO "File opened!");
+  printk(KERN_INFO "File opened!\n");
   return SUCCESS;
 }
 
@@ -149,3 +170,6 @@ static int data_bus_release(struct inode *inode, struct file *file) {
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Kernel Driver for the GPP Bus DATA_A and DATA_B");
 MODULE_VERSION("0.1");
+
+module_init(data_bus_init);
+module_exit(data_bus_exit);
