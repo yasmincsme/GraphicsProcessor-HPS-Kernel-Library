@@ -9,22 +9,27 @@
 
 #include "address_map_arm.h"
 
-#define WRREG 0xc0
 #define DATA_B 0x70
 #define DATA_A 0x80
 
-static int device_open(struct inode *, struct file *);
+#define DEVICE_NAME "gpp_data_bus"
+#define CLASS_NAME "gppdatabus_class"
+
+/*Struct for the devices DATA A and DATA B*/
+struct data_bus {
+}
+
+static int
+device_open(struct inode *, struct file *);
 static int device_release(struct inode *, struct file *);
 static ssize_t device_read(struct file *, char *, size_t, loff_t *);
 static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 
 static struct file_operands device_fops = {
-    .read = device_read, .write = device_write, .open = device_open, .release = device_release};
+    .owner = THIS_MODULE, .read = device_read, .write = device_write, .open = device_open, .release = device_release};
 
-#define DEV_NAME "gpp_kernel_module"
-
-void *LW_virtual;                                  /*Lightweight bridge base address*/
-volatile int *WRREG_ptr, *DATA_A_ptr, *DATA_B_ptr; /*Start pulse, Data A bus and Data B bus base address*/
+void *LW_virtual;                      /*Lightweight bridge base address*/
+volatile int *DATA_A_ptr, *DATA_B_ptr; /*Start pulse, Data A bus and Data B bus base address*/
 
 /*Default function for initialization of the module*/
 static int __init initialize_module(void) {
@@ -43,3 +48,7 @@ static int __init initialize_module(void) {
 void __exit cleanup_module(void) {
   iounmap(LW_virtual);
 }
+
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("Kernel Driver for the GPP Bus DATA_A and DATA_B");
+MODULE_VERSION("0.1");
