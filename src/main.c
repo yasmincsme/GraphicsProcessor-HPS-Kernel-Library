@@ -6,7 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define DEVICE_PATH "/dev/data_bus"
+#define DEVICE_PATH "/dev/gpp_data_bus"
 
 // Função para escrever dados no dispositivo
 void write_data(int fd, uint64_t data) {
@@ -51,7 +51,7 @@ int main(void) {
 
   // Verifica se o valor lido é igual ao valor escrito
   if (read_value != write_value) {
-    fprintf(stderr, "Erro: valor lido (0x%016lx) diferente do valor escrito (0x%016lx)\n", read_value, write_value);
+    fprintf(stderr, "Erro: valor lido diferente do valor escrito\n", read_value, write_value);
   } else {
     printf("Valor lido é igual ao valor escrito. Sucesso!\n");
   }
