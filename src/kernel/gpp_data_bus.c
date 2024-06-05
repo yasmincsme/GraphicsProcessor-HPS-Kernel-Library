@@ -9,45 +9,40 @@
 
 #include "address_map_arm.h"
 
-#define DATA_B 0x70
-#define DATA_A 0x80
-
 #define DEVICE_NAME "gpp_data_bus"
 #define CLASS_NAME "gppdatabus_class"
 
-/*Struct for the devices DATA A and DATA B*/
-struct data_bus {
-}
+/*Defining memory base addreses*/
+// #define LW_VIRTUAL 0xFF200000
+// #define DATA_A_OFFSET 0x70
+// #define DATA_B_OFFSET 0x80
+// #define DATA_A_PHYS_ADDR (LW_VIRTUAL + DATA_A_OFFSET)
+// #define DATA_B_PHYS_ADDR (LW_VIRTUAL + DATA_B_OFFSET)
 
-static int
-device_open(struct inode *, struct file *);
+#define SUCCESS 0
+
+/*Global variables and structs for the functions of the module*/
+static int majorNumber;
+static struct class *dataBusClass = NULL;
+static struct device *dataBusDevice = NULL;
+
+void __iomem *data_a_mem;
+void __iomem *data_b_mem;
+
+/*Declaring default functions and the file operations*/
+static int device_open(struct inode *, struct file *);
 static int device_release(struct inode *, struct file *);
 static ssize_t device_read(struct file *, char *, size_t, loff_t *);
 static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 
-static struct file_operands device_fops = {
-    .owner = THIS_MODULE, .read = device_read, .write = device_write, .open = device_open, .release = device_release};
-
-void *LW_virtual;                      /*Lightweight bridge base address*/
-volatile int *DATA_A_ptr, *DATA_B_ptr; /*Start pulse, Data A bus and Data B bus base address*/
-
-/*Default function for initialization of the module*/
-static int __init initialize_module(void) {
-  printk(KERN_ALERT "Module Initialized with Success!");
-  /*generate a virtual address for the FPGA lightweight bridge*/
-  LW_virtual = ioremap_nocache(LW_BRIDGE_BASE, LW_BRIDGE_SPAN);
-
-  WRREG_ptr = LW_virtual + WRREG;   /*Virtual address for Start pulse port*/
-  DATA_A_ptr = LW_virtual + DATA_A; /*Virtual address for Data A bus port*/
-  DATA_B_ptr = LW_virtual + DATA_B; /*Virtual address for Data B bus port*/
-
-  return 0;
+static struct file_operands device_fops = {.owner = THIS_MODULE,
+                                           .read = data_bus_read,
+                                           .write = data_bus_write,
+                                           .open = data_bus_open,
+                                           .release = data_bus_release};
 }
 
-/*Default function for cleanup and unload the module */
-void __exit cleanup_module(void) {
-  iounmap(LW_virtual);
-}
+
 
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Kernel Driver for the GPP Bus DATA_A and DATA_B");
