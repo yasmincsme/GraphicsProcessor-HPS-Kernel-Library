@@ -7,7 +7,7 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 
-#include "address_map_arm.h"
+// #include "address_map_arm.h"
 
 #define DEVICE_NAME "gpp_data_bus"
 #define CLASS_NAME "gppdatabus_class"
@@ -32,17 +32,16 @@ void __iomem *data_a_mem;
 void __iomem *data_b_mem;
 
 /*Declaring default functions and the file operations*/
-static int device_open(struct inode *, struct file *);
-static int device_release(struct inode *, struct file *);
-static ssize_t device_read(struct file *, char *, size_t, loff_t *);
-static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
+static ssize_t data_bus_read(struct file *, char *, size_t, loff_t *);
+static ssize_t data_bus_write(struct file *, const char *, size_t, loff_t *);
+static int data_bus_open(struct inode *, struct file *);
+static int data_bus_release(struct inode *, struct file *);
 
 static struct file_operations fops = {.owner = THIS_MODULE,
                                       .read = data_bus_read,
                                       .write = data_bus_write,
                                       .open = data_bus_open,
                                       .release = data_bus_release};
-}
 
 static int __init data_bus_init(void) {
   printk(KERN_INFO "DataBus: Initializing the DataBus\n");
@@ -136,6 +135,15 @@ static ssize_t data_bus_write(struct file *filep, const char *buffer, size_t len
   iowrite32(data_b, data_b_mem);
 
   return sizeof(data);
+}
+
+static int data_bus_open(struct inode *inode, struct file *file) {
+  printk(KERNEL_INFO "File opened!");
+  return SUCCESS;
+}
+
+static int data_bus_release(struct inode *inode, struct file *file) {
+  return SUCCESS;
 }
 
 MODULE_LICENSE("GPL");
