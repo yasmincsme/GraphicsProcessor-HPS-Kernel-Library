@@ -34,10 +34,11 @@ int main(void) {
 
   int fd;
   uint64_t write_value_background = 0x0000000000000f1f;
-  // uint64_t write_value_sprite = 0b00001000000100000000000000000000000000000;
-  uint64_t write_value_pol =
-      0b0001001110011010010001111000000111000000;  // end: 0001 opcode: 0011 forma: 1 B: 001 G: 101 R: 001 tamanho: 0001
-                                                   // y: 111000000 x: 111000000
+  uint64_t write_value_sprite = 0b00001000000000000000000000000000000000010;
+  // uint64_t write_value_pol =
+  //     0b0001001110011010010001111000000111000000;  // end: 0001 opcode: 0011 forma: 1 B: 001 G: 101 R: 001 tamanho:
+  //     0001
+  //                                                  // y: 111000000 (448 em decimal) x: 111000000
   uint64_t read_value;
 
   // Abre o dispositivo
@@ -49,7 +50,7 @@ int main(void) {
 
   // Escreve um valor no dispositivo
   write_data(fd, write_value_background);
-  write_data(fd, write_value_pol);
+  write_data(fd, write_value_sprite);
 
   // // Lê o valor do dispositivo
   // read_value = read_data(fd);
