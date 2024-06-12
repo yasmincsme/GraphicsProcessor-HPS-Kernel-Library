@@ -1,13 +1,17 @@
 #include "GraphSync.h"
 
 #include <stdio.h>
+#include <unistd.h>
 
 int set_sprite(int registrador, int x, int y, int offset, int activation_bit) {
-  __uint32_t dataA = (registrador << 4) | (0000);
-  __uint32_t dataB = (activation_bit << 29) | (x << 19) | (y << 9) | offset;
-  printf("%x, %x\n", dataA, dataB);
-  __uint64_t instruction = (dataA << 32) | (dataB);
-  printf("%x\n", instruction);
+  long long int dataA = (registrador << 4) | (0000);
+  long long int dataB = (activation_bit << 29) | (x << 19) | (y << 9) | offset;
+
+  printf("%d, %d\n", (int)dataA, (int)dataB);
+
+  long long int instruction = (dataA << 32) | (dataB);
+
+  printf("%d\n", (int)instruction);
 
   return instruction;
 }
