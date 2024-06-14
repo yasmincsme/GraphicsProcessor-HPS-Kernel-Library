@@ -1,96 +1,56 @@
-# Compiler to be used.
-CC = gcc
+obj-m += gpp_data_bus.o
 
-# Name for the main executable of the project.
-TARGET_NAME = source
-
-# Directories/Files related to the build of the project.
-BUILD_DIR = build
-
-OBJ_DIR = $(BUILD_DIR)/obj
-BIN_DIR = $(BUILD_DIR)/bin
-
-COMPILATION_DATABASE = $(BUILD_DIR)/compile_commands.json
-
-# Location of the project final executable.
-TARGET = $(BUILD_DIR)/bin/$(TARGET_NAME)
-
-# Files to be included in the compilation.
-SOURCES_WITH_HEADERS = \
-											 src/app/GraphSync.c \
-
-
-# Directories to be included in the compilation.
-INCLUDE_DIRS = \
-							 ./src \
-
-# Entry point for the project.
-MAIN_FILE = src/main.c
+TARGET_DIR = $(PWD)/src/kernel
+BUILD_DIR = $(PWD)/build
 
 # All *.c files.
 SOURCES = \
-					$(MAIN_FILE) \
-					$(SOURCES_WITH_HEADERS)
+					src/GraphSync.c \
+					src/main.c 
 
 # All *.h files.
 HEADERS = \
-					$(SOURCES_WITH_HEADERS:.c=.h) \
-					src/utils/ui.h \
-					
+					src/ui.h \
+					src/types.h \
+					src/GraphSync.h 		
 
-# Files (*.c or *.h) to be ignored in the `format` target.
+all: kernel build 
+
+build: build/dir build/main
+
+build/dir:
+	@mkdir -p build
+
+build/main: build/GraphSync.o build/main.o 
+	@gcc build/GraphSync.o build/main.o -o build/main
+
+build/GraphSync.o: src/GraphSync.c src/GraphSync.h src/ui.h src/types.h
+	@gcc -c src/GraphSync.c -o build/GraphSync.o -Isrc
+
+build/main.o: src/main.c src/GraphSync.h src/ui.h src/types.h
+	@gcc -c src/main.c -o build/main.o -Isrc
+
+run: build 
+	@sudo ./build/main
+
+kernel:
+	make -C /lib/modules/$(shell uname -r)/build M=$(TARGET_DIR) modules
+	
+clean: 
+	make -C /lib/modules/$(shell uname -r)/build M=$(TARGET_DIR) clean #Não executar como está
+	@sudo rm -r build
+
+load: 
+	@sudo insmod src/kernel/gpp_data_bus.ko
+
+unload:
+	@sudo rmmod gpp_data_bus
+
 IGNORE_FILES_FORMAT =
-
-# Files (*.c or *.h) to be included in the `format` target.
 HEADERS_FORMAT = $(filter-out $(IGNORE_FILES_FORMAT), $(HEADERS))
 SOURCES_FORMAT = $(filter-out $(IGNORE_FILES_FORMAT), $(SOURCES))
 
-# Names for the Object files generated from the compilation.
-OBJECT_NAMES = $(SOURCES:.c=.o)
+format:
+	@clang-format -i -style=llvm $(HEADERS_FORMAT) $(SOURCES_FORMAT)
 
-# Paths to the Object files generated from the compilation.
-OBJECTS = $(patsubst %, $(OBJ_DIR)/%, $(OBJECT_NAMES))
-
-# Flags to tune error levels in the compilation process.
-WFLAGS = -Wall -Wextra -pedantic
-WFLAGS += -Wno-unused-parameter -Wno-unused-variable \
-					-Wno-unused-but-set-variable -Wno-missing-field-initializers
-
-# Flags to be passed in the compilation and linking process, respectively.
-CFLAGS = -std=c99
-CFLAGS += $(WFLAGS) $(addprefix -I, $(INCLUDE_DIRS))
-LDFLAGS = $(addprefix -I, $(INCLUDE_DIRS)) 
-
-help: ## Show all the available targets.
-	@echo "Available targets:"
-	@grep -E "^[a-zA-Z0-9_-]+:.*?## .*$$" $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
-
-# Linking...
-$(TARGET): $(OBJECTS) $(HEADERS)
-	@echo $(OBJECTS)
-	@mkdir -p $(dir $@)
-	$(CC) $^ -o $@ $(LDFLAGS)
-
-# Compilation...
-$(OBJ_DIR)/%.o: %.c
-	@mkdir -p $(dir $@)
-	$(CC) -c -o $@ $^ $(CFLAGS)
-
-build: $(TARGET) ## Compiles the project.
-
-run: $(TARGET) ## Runs the project with `root` permissions.
-	#sudo @./$^
-	sudo ./build/bin/source
-
-clean: ## Remove all files generated in the compilation.
-	@rm -rf $(BUILD_DIR)
-
-format: ## Formats code using `clang-format`.
-ifeq (, $(shell which clang-format 2> /dev/null))
-	$(error `clang-format` wasn't found! Consider installing it trough your package manager)
-else
-	@clang-format -i -style=llvm $(SOURCES_FORMAT) $(HEADERS_FORMAT)
-endif
-
-
-.PHONY: all help format build run clean
+.PHONY: format
