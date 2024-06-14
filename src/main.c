@@ -36,9 +36,10 @@ int main(void) {
   uint64_t write_value_background = 0x0000000000000f1f;
   uint64_t write_value_sprite = 0b00001000000000000000000000000000000000010;
   // uint64_t write_value_pol =
-  //     0b0001001110011010010001111000000111000000;  // end: 0001 opcode: 0011 forma: 1 B: 001 G: 101 R: 001 tamanho:
-  //     0001
-  //                                                  // y: 111000000 (448 em decimal) x: 111000000
+  //     0b0001001110011010010001111000000111000000;  // end: 0001 opcode: 0011
+  //     forma: 1 B: 001 G: 101 R: 001 tamanho: 0001
+  //                                                  // y: 111000000 (448 em
+  //                                                  decimal) x: 111000000
   uint64_t read_value;
 
   // Abre o dispositivo
@@ -57,7 +58,8 @@ int main(void) {
 
   // // Verifica se o valor lido é igual ao valor escrito
   // if (read_value != write_value_background) {
-  //   fprintf(stderr, "Erro: valor lido diferente do valor escrito\n", read_value, write_value);
+  //   fprintf(stderr, "Erro: valor lido diferente do valor escrito\n",
+  //   read_value, write_value);
   // } else {
   //   printf("Valor lido é igual ao valor escrito. Sucesso!\n");
   // }
