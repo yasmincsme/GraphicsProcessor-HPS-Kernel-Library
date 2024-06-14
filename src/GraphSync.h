@@ -48,14 +48,14 @@ struct sprite_fixed_t {
  * Processor. The parameters correspond to the fields of
  * the instruction.
  *
- * @param registrador Register to use.
+ * @param reg Register to use.
  * @param x X-coordinate of the sprite.
  * @param y Y-coordinate of the sprite.
  * @param offset Offset used for bitmap selection.
  * @param activation_bit Activation status of the sprite.
  * @return 1 if the operation was successful, 0 otherwise.
  */
-int set_sprite(int registrador, int x, int y, int offset, int activation_bit);
+long long int set_sprite(int reg, int x, int y, int offset, int activation_bit);
 
 /**
  * @brief Sets a background block with a specific color.
@@ -84,7 +84,7 @@ int set_background_block(int column, int line, int R, int G, int B);
  * @param B Blue component of the color.
  * @return 1 if the operation was successful, 0 otherwise.
  */
-int set_background_color(int R, int G, int B);
+long long int set_background_color(int R, int G, int B);
 
 /**
  * @brief Increases the coordinates of a movable sprite.
