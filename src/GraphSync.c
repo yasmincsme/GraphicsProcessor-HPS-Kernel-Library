@@ -6,7 +6,28 @@
 #include <string.h>
 #include <unistd.h>
 
-uint64_t set_sprite(long long int reg, int x, int y, int offset, int activation_bit) {
+/*Funções write e read para acesso ao arquivo*/
+void write_data(int fd, uint64_t data) {
+  ssize_t result = write(fd, &data, sizeof(data));
+  if (result == -1) {
+    perror("Falha na escrita do dispositivo");
+    exit(EXIT_FAILURE);
+  }
+}
+
+// Função para ler dados do dispositivo
+uint64_t read_data(int fd) {
+  uint64_t data;
+  ssize_t result = read(fd, &data, sizeof(data));
+  if (result == -1) {
+    perror("Falha na leitura do dispositivo");
+    exit(EXIT_FAILURE);
+  }
+
+  return data;
+}
+
+uint64_t set_sprite(int reg, int x, int y, int offset, int activation_bit) {
   int opcode = 0000;
 
   uint32_t dataA = reg << 6 | opcode << 2;
@@ -30,7 +51,7 @@ uint64_t set_sprite(long long int reg, int x, int y, int offset, int activation_
   return instruction;
 }
 
-int set_background_block(int column, int line, int R, int G, int B) {
+uint64_t set_background_block(int column, int line, int R, int G, int B) {
   int opcode = 0010;
   int memory_address = column * line;
 
@@ -51,11 +72,13 @@ int set_background_block(int column, int line, int R, int G, int B) {
   return instruction;
 }
 
-long long int set_background_color(int R, int G, int B) {
+uint64_t set_background_color(int R, int G, int B) {
   long long int instruction = B << 6 | G << 3 | R;
 
   return instruction;
 }
+
+uint64_t set_polygon(int reg, int x, int y, int offset, int activation_bit) {}
 
 void increase_coordinate(sprite_t *sp, int mirror) {}
 

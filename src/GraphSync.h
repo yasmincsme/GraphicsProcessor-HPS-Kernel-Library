@@ -40,6 +40,10 @@ struct sprite_fixed_t {
   int ativo;         /**< Activation status of the fixed sprite. */
 };
 
+void write_data(int fd, uint64_t data);
+
+uint64_t read_data(int fd);
+
 /**
  * @brief Sets the properties of a movable sprite.
  *

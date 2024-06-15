@@ -5,6 +5,7 @@
     "files.associations": {
         "ui.h": "c",
         "DATA_A.C": "cpp",
-        "data.C": "cpp"
+        "data.C": "cpp",
+        "stdlib.h": "c"
     }
 }
