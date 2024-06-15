@@ -55,7 +55,7 @@ struct sprite_fixed_t {
  * @param activation_bit Activation status of the sprite.
  * @return 1 if the operation was successful, 0 otherwise.
  */
-long long int set_sprite(int reg, int x, int y, int offset, int activation_bit);
+uint32_t set_sprite(int reg, int x, int y, int offset, int activation_bit);
 
 /**
  * @brief Sets a background block with a specific color.
