@@ -78,7 +78,25 @@ uint64_t set_background_color(int R, int G, int B) {
   return instruction;
 }
 
-uint64_t set_polygon(int reg, int x, int y, int offset, int activation_bit) {}
+uint64_t set_polygon(int reg, int format, int R, int G, int B, int size, int ref_point_y, int ref_point_x) {
+  int opcode = 0011;
+
+  uint32_t dataA = reg << 5 | opcode; //TOMAR CUIDADO PORQUE SE A FORMA FOR 0 DE QUADRADO ELE TIRA OS BITS DA FORMA
+  uint32_t dataB = format << 31 | R << 28 | G << 25 | R << 22 | size << 18 | ref_point_y << 9 | ref_point_x;
+
+  /*Transformando dataA e dataB em caracteres e concatenando as strings*/
+  char data_a_str[32];
+  char data_b_str[32];
+  char instruction[64];
+
+  itoa(dataA, data_a_str, 2);
+  itoa(dataB, data_b_str, 2);
+  strcat(instruction, data_a_str);
+  strcat(instruction, data_b_str);
+
+  printf("%s\n", instruction);
+  return instruction;
+}
 
 void increase_coordinate(sprite_t *sp, int mirror) {}
 

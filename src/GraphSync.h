@@ -74,7 +74,7 @@ uint32_t set_sprite(int reg, int x, int y, int offset, int activation_bit);
  * @param G Green component of the color.
  * @param B Blue component of the color.
  */
-int set_background_block(int column, int line, int R, int G, int B);
+uint64_t set_background_block(int column, int line, int R, int G, int B);
 
 /**
  * @brief Sets the base color of the background.
@@ -88,7 +88,7 @@ int set_background_block(int column, int line, int R, int G, int B);
  * @param B Blue component of the color.
  * @return 1 if the operation was successful, 0 otherwise.
  */
-long long int set_background_color(int R, int G, int B);
+uint64_t set_background_color(int R, int G, int B);
 
 /**
  * @brief Increases the coordinates of a movable sprite.
