@@ -191,28 +191,26 @@ u64_t read_data(u64_t fd) {
 //   sprite_ptr->coord_y = y;
 // }
 
-// u32_t set_fixed_sprite(sprite_fixed_t) {}
+u64_t set_background_block(u64_t column, u64_t line, u8_t R, u8_t G, u8_t B) {
+  u8_t opcode = 0010;
+  u64_t memory_address = column * line;
 
-// uint64_t set_background_block(int column, int line, int R, int G, int B) {
-//   int opcode = 0010;
-//   int memory_address = column * line;
+  u32_t dataA = memory_address << 27 | opcode << 23;
+  u32_t dataB = B << 6 | G << 3 | R;
 
-//   uint32_t dataA = memory_address << 27 | opcode << 23;
-//   uint32_t dataB = B << 6 | G << 3 | R;
+  char dataA_str[33];
+  char dataB_str[33];
+  char instruction_str[65];
 
-//   /*Transformando dataA e dataB em caracteres e concatenando as strings*/
-//   char data_a_str[32];
-//   char data_b_str[32];
-//   char instruction[64];
+  itoa(dataA, dataA_str, 2);
+  itoa(dataB, dataB_str, 2);
+  strcpy(instruction_str, dataA_str);
+  strcat(instruction_str, dataB_str);
 
-//   itoa(dataA, data_a_str, 2);
-//   itoa(dataB, data_b_str, 2);
-//   strcat(instruction, data_a_str);
-//   strcat(instruction, data_b_str);
+  u64_t instruction = strtoull(instruction_str, NULL, 2);
 
-//   printf("%s\n", instruction);
-//   return instruction;
-// }
+  return instruction;
+}
 
 u64_t set_sprite(u8_t reg, u8_t sp, u16_t x, u16_t y, u16_t offset) {
   u8_t opcode = 0b0000;
