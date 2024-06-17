@@ -21,14 +21,17 @@ build: build/dir build/main
 build/dir:
 	@mkdir -p build
 
-build/main: build/GraphSync.o build/main.o 
-	@gcc build/GraphSync.o build/main.o -o build/main
+build/main: build/GraphSync.o build/aux.o build/main.o 
+	@gcc build/GraphSync.o build/aux.o build/main.o -o build/main
 
-build/GraphSync.o: src/GraphSync.c src/GraphSync.h src/ui.h src/types.h
-	@gcc -c src/GraphSync.c -o build/GraphSync.o -Isrc
+build/aux.o: src/utils/types.h
+	@gcc -c src/utils/aux.c -o build/aux.o -Isrx -Iutils
 
-build/main.o: src/main.c src/GraphSync.h src/ui.h src/types.h
-	@gcc -c src/main.c -o build/main.o -Isrc
+build/GraphSync.o: src/GraphSync.c src/GraphSync.h src/utils/ui.h src/utils/types.h build/aux.o
+	@gcc -c src/GraphSync.c -o build/GraphSync.o -Isrc -Iutils
+
+build/main.o: src/main.c src/GraphSync.h src/utils/ui.h src/utils/types.h
+	@gcc -c src/main.c -o build/main.o -Isrc -Iutils
 
 run: build 
 	@sudo ./build/main
@@ -53,4 +56,4 @@ SOURCES_FORMAT = $(filter-out $(IGNORE_FILES_FORMAT), $(SOURCES))
 format:
 	@clang-format -i -style=llvm $(HEADERS_FORMAT) $(SOURCES_FORMAT)
 
-.PHONY: format
+.PHONY: format unload load clean kernel build all
