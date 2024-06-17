@@ -1,6 +1,11 @@
 #include <stdio.h>
 
-#include "ui.h"
+#include "utils/types.h"
+#include "utils/ui.h"
+
+typedef enum sprite_type_t;
+
+typedef enum { SPRITE_NORMAL, SPRITE_FIXED } sprite_type_t;
 
 /**
  * @brief Structure representing a movable sprite.
@@ -40,9 +45,9 @@ struct sprite_fixed_t {
   int ativo;         /**< Activation status of the fixed sprite. */
 };
 
-void write_data(int fd, uint64_t data);
+void write_data(u16_t fd, u64_t data);
 
-uint64_t read_data(int fd);
+u64_t read_data(u64_t fd);
 
 /**
  * @brief Sets the properties of a movable sprite.
@@ -59,7 +64,7 @@ uint64_t read_data(int fd);
  * @param activation_bit Activation status of the sprite.
  * @return 1 if the operation was successful, 0 otherwise.
  */
-uint32_t set_sprite(int reg, int x, int y, int offset, int activation_bit);
+// u32_t set_sprite(u8_t reg, u16_t x, u16_t y, u16_t offset, u8_t activation_bit);
 
 /**
  * @brief Sets a background block with a specific color.
