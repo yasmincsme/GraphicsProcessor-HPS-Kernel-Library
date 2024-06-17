@@ -13,6 +13,7 @@
 
 // build WBM DP
 
+/*
 void write_DP(u8_t type, u8_t R, u8_t G, u8_t B, u8_t lenght, u16_t x, u16_t y, u16_t adress) {
   u8_t opcode = 0b0001; ////////////
 
@@ -38,8 +39,9 @@ void write_DP(u8_t type, u8_t R, u8_t G, u8_t B, u8_t lenght, u16_t x, u16_t y, 
   write_data(fd, (u64_t)instruction);
   close(fd);
 }
-}
+*/
 
+/*
 void write_WSM(u8_t R, u8_t G, u8_t B, u32_t adress) {
   u8_t opcode = 0b0001;
 
@@ -65,7 +67,9 @@ void write_WSM(u8_t R, u8_t G, u8_t B, u32_t adress) {
   write_data(fd, (u64_t)instruction);
   close(fd);
 }
+*/
 
+/*
 void write_WBR_sprite(u8_t ativo, u16_t x, u16_t y, u16_t offset, u8_t reg) {
   u8_t opcode = 0b0000;
 
@@ -91,7 +95,9 @@ void write_WBR_sprite(u8_t ativo, u16_t x, u16_t y, u16_t offset, u8_t reg) {
   write_data(fd, (u64_t)instruction);
   close(fd);
 }
+*/
 
+/*
 void write_WBR_background(u8_t R, u8_t G, u8_t B) {
   u8_t opcode = 0b0000;
   u8_t reg = 0b00000;
@@ -123,6 +129,7 @@ void write_WBR_background(u8_t R, u8_t G, u8_t B) {
   write_data(fd, (u64_t)instruction);
   close(fd);
 }
+*/
 
 void write_data(u16_t fd, u64_t data) {
   ssize_t result = write(fd, &data, sizeof(data));
@@ -143,6 +150,7 @@ u64_t read_data(u64_t fd) {
   return data;
 }
 
+/*
 sprite_fixed_t init_fixed_sprite(u8_t reg, u8_t offset) {
   sprite_fixed_t sprite;
   sprite.coord_x = 0;
@@ -169,7 +177,9 @@ void view_sprite(void *sprite_ptr, sprite_type_t type) {
       break;
   }
 }
+*/
 
+/*
 void hide_sprite(void *sprite_ptr, sprite_type_t type) {
   switch (type) {
     case SPRITE_NORMAL: {
@@ -194,53 +204,113 @@ u8_t set_fixed_sprite(sprite_fixed_t *sprite_ptr, u8_t x, u8_t y) {
 
 // u32_t set_fixed_sprite(sprite_fixed_t) {}
 
-uint64_t set_background_block(int column, int line, int R, int G, int B) {
-  int opcode = 0010;
-  int memory_address = column * line;
+*/
 
-  uint32_t dataA = memory_address << 27 | opcode << 23;
-  uint32_t dataB = B << 6 | G << 3 | R;
+void set_background_block(int column, int line, int R, int G, int B) {
+  u8_t opcode = 0b0000;
 
-  /*Transformando dataA e dataB em caracteres e concatenando as strings*/
-  char data_a_str[32];
-  char data_b_str[32];
+  u32_t dataA = sprite.data_register << 6 | opcode;
+  u32_t dataB = sprite.ativo << 29 | sprite.coord_x << 19 | sprite.coord_y << 9 | sprite.offset;
+
+  char dataA_str[32];
+  char dataB_str[32];
   char instruction[64];
 
-  itoa(dataA, data_a_str, 2);
-  itoa(dataB, data_b_str, 2);
-  strcat(instruction, data_a_str);
-  strcat(instruction, data_b_str);
+  itoa(dataA, dataA_str, 2);
+  itoa(dataB, dataB_str, 2);
+  strcat(instruction, dataA_str);
+  strcat(instruction, dataB_str);
 
-  printf("%s\n", instruction);
-  return instruction;
+  u16_t fd = open(DEVICE_PATH, O_RDWR);
+
+  if (fd == -1) {
+    perror("Falha ao abrir o dispositivo");
+    exit(EXIT_FAILURE);
+  }
+
+  write_data(fd, (u64_t)instruction);
+  close(fd);
 }
 
-uint64_t set_background_color(int R, int G, int B) {
-  long long int instruction = B << 6 | G << 3 | R;
+void set_sprite(sprite_t sprite) {
+  u8_t opcode = 0b0000;
 
-  return instruction;
-}
+  u32_t dataA = sprite.data_register << 6 | opcode;
+  u32_t dataB = sprite.ativo << 29 | sprite.coord_x << 19 | sprite.coord_y << 9 | sprite.offset;
 
-uint64_t set_polygon(int reg, int format, int R, int G, int B, int size, int ref_point_y, int ref_point_x) {
-  int opcode = 0011;
-
-  uint32_t dataA = reg << 5 | opcode;  // TOMAR CUIDADO PORQUE SE A FORMA FOR 0 DE QUADRADO ELE TIRA OS BITS DA FORMA
-  uint32_t dataB = format << 31 | R << 28 | G << 25 | R << 22 | size << 18 | ref_point_y << 9 | ref_point_x;
-
-  /*Transformando dataA e dataB em caracteres e concatenando as strings*/
-  char data_a_str[32];
-  char data_b_str[32];
+  char dataA_str[32];
+  char dataB_str[32];
   char instruction[64];
 
-  itoa(dataA, data_a_str, 2);
-  itoa(dataB, data_b_str, 2);
-  strcat(instruction, data_a_str);
-  strcat(instruction, data_b_str);
+  itoa(dataA, dataA_str, 2);
+  itoa(dataB, dataB_str, 2);
+  strcat(instruction, dataA_str);
+  strcat(instruction, dataB_str);
 
-  printf("%s\n", instruction);
+  u16_t fd = open(DEVICE_PATH, O_RDWR);
+
+  if (fd == -1) {
+    perror("Falha ao abrir o dispositivo");
+    exit(EXIT_FAILURE);
+  }
+
+  write_data(fd, (u64_t)instruction);
+  close(fd);
+}
+
+void set_background_color(u8_t R, u8_t G, u8_t B) {
+  u8_t opcode = 0b0000;
+  u8_t reg = 0b00000;
+
+  u32_t dataA = reg << 6 | opcode;
+  u32_t dataB = B << 6 | G << 3 | R;
+
+  char dataA_str[32];
+  char dataB_str[32];
+  char instruction[64];
+
+  itoa(dataA, dataA_str, 2);
+  itoa(dataB, dataB_str, 2);
+  strcat(instruction, dataA_str);
+  strcat(instruction, dataB_str);
+
+  itoa(dataA, dataA_str, 2);
+  itoa(dataB, dataB_str, 2);
+  strcat(instruction, dataA_str);
+  strcat(instruction, dataB_str);
+
+  u16_t fd = open(DEVICE_PATH, O_RDWR);
+
+  if (fd == -1) {
+    perror("Falha ao abrir o dispositivo");
+    exit(EXIT_FAILURE);
+  }
+
+  write_data(fd, (u64_t)instruction);
+  close(fd);
   return instruction;
 }
 
-void increase_coordinate(sprite_t *sp, int mirror) {}
+// uint64_t set_polygon(int reg, int format, int R, int G, int B, int size, int ref_point_y, int ref_point_x) {
+//   int opcode = 0011;
 
-int collision(sprite_t *sp1, sprite_t *sp2) {}
+//   uint32_t dataA = reg << 5 | opcode;  // TOMAR CUIDADO PORQUE SE A FORMA FOR 0 DE QUADRADO ELE TIRA OS BITS DA FORMA
+//   uint32_t dataB = format << 31 | R << 28 | G << 25 | R << 22 | size << 18 | ref_point_y << 9 | ref_point_x;
+
+/*Transformando dataA e dataB em caracteres e concatenando as strings*/
+// char data_a_str[32];
+// char data_b_str[32];
+// char instruction[64];
+
+// itoa(dataA, data_a_str, 2);
+// itoa(dataB, data_b_str, 2);
+// strcat(instruction, data_a_str);
+// strcat(instruction, data_b_str);
+
+// printf("%s\n", instruction);
+// return instruction;
+// }
+
+// void increase_coordinate(sprite_t *sp, int mirror) {}
+
+// int collision(sprite_t *sp1, sprite_t *sp2) {}
