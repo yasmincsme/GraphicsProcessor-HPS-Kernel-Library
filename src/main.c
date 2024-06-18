@@ -27,35 +27,55 @@ int main(void) {
     set_background_block(block);
   }
 
-  // //SPRITE SPACESHIP
-  // sprite_fixed_t spaceship_1;
-  // spaceship_1.ativo = 0;
-  // spaceship_1.data_register = 1;
-  // spaceship_1.coord_x = 190;
-  // spaceship_1.coord_y = 190;
-  // spaceship_1.offset = 5;
+  // //SOL
+  // polygon_t pol_sun;
+  // pol_sun.data_register = 15;
+  // pol_sun.type = 0;
+  // pol_sun.size = 5;
+  // pol_sun.ref_point_x = 300;
+  // pol_sun.ref_point_y = 300;
+  // pol_sun.R = 7;
+  // pol_sun.G = 7;
+  // pol_sun.B = 0;
 
-  // set_fixed_sprite(spaceship_1);
+  // set_polygon(pol_sun);
 
-  // //SPRITE SPACESHIP
-  // sprite_fixed_t spaceship_2;
-  // spaceship_2.ativo = 0;
-  // spaceship_2.data_register = 2;
-  // spaceship_2.coord_x = 50;
-  // spaceship_2.coord_y = 50;
-  // spaceship_2.offset = 5;
+  //ÁRVORES
+  sprite_fixed_t sprite_tree1;
+  sprite_tree1.ativo = 1;
+  sprite_tree1.data_register = 1;
+  sprite_tree1.offset = 4;
+  sprite_tree1.coord_x = 100;
+  sprite_tree1.coord_y = 400;
 
-  // set_fixed_sprite(spaceship_2);
+  set_fixed_sprite(sprite_tree1);
 
-  // //SPRITE ASTEROIDES
-  // sprite_fixed_t asteroid_1;
-  // spaceship_2.ativo = 0;
-  // spaceship_2.data_register = 3;
-  // spaceship_2.coord_x = 250;
-  // spaceship_2.coord_y = 250;
-  // spaceship_2.offset = 23;
+  sprite_fixed_t sprite_tree2;
+  sprite_tree2.ativo = 1;
+  sprite_tree2.data_register = 2;
+  sprite_tree2.offset = 4;
+  sprite_tree2.coord_x = 150;
+  sprite_tree2.coord_y = 350;
 
-  // set_fixed_sprite(spaceship_2);
+  set_fixed_sprite(sprite_tree2);
+
+  sprite_fixed_t sprite_tree3;
+  sprite_tree3.ativo = 1;
+  sprite_tree3.data_register = 3;
+  sprite_tree3.offset = 4;
+  sprite_tree3.coord_x = 200;
+  sprite_tree3.coord_y = 450;
+
+  set_fixed_sprite(sprite_tree3);
+
+  sprite_fixed_t sprite_tree4;
+  sprite_tree4.ativo = 1;
+  sprite_tree4.data_register = 4;
+  sprite_tree4.offset = 4;
+  sprite_tree4.coord_x = 320;
+  sprite_tree4.coord_y = 460;
+
+  set_fixed_sprite(sprite_tree4);
 
   //BASE DO CASTELO
   polygon_t polygon_1;
