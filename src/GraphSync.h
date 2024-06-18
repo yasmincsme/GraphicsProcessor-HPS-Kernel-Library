@@ -43,8 +43,7 @@ struct polygon_t {
 typedef struct ground_block_t ground_block_t;
 
 struct ground_block_t {
-  u64_t column;
-  u64_t line;
+  u64_t address;
   u8_t R;
   u8_t G;
   u8_t B;
