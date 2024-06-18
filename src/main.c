@@ -13,32 +13,31 @@ int main(void) {
   u64_t instruction1 = set_background_color(7, 5, 1);
 
   sprite_fixed_t sprite;
-  sprite.ativo = 0;
+  sprite.ativo = 1;
   sprite.data_register = 2;
-  sprite.coord_x = 100;
-  sprite.coord_y = 100;
+  sprite.coord_x = 320;
+  sprite.coord_y = 120;
   sprite.offset = 18;
 
   set_fixed_sprite(sprite);
 
   ground_block_t block;
-  block.column = 2;
-  block.line = 2;
-  block.R = 1;
-  block.G = 1;
-  block.B = 7; //677
+  block.address = 4;
+  block.R = 6;
+  block.G = 0;
+  block.B = 0; //677
 
-  //set_background_block(block);
+  // set_background_block(block);
 
-  int j, i = 0;
+  // int j, i = 0;
 
-  for (i; i<80; i++) {
-    for(j; j<30; j++) {
-      block.column = j;
-      block.line = i;
-      set_background_block(block);
-    }
-  }
+
+  //   for(j; j<4799; j++) {
+  //     block.address = j;
+ 
+  //     set_background_block(block);
+  //   }
+
 
     // // printf("\n%x\n", instruction1);
 
