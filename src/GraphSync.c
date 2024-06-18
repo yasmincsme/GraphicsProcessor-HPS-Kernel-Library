@@ -55,8 +55,7 @@ int close_data() {
 
 u64_t set_background_block(ground_block_t block) {
   u8_t opcode = 0b0010;
-  u64_t memory_address = block.column + (80 * block.line);
-
+  u64_t memory_address = block.address;
   u32_t dataA = memory_address << 4 | opcode;
   u32_t dataB = block.B << 6 | block.G << 3 | block.R;
 
