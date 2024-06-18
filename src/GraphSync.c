@@ -1,33 +1,54 @@
 #include "GraphSync.h"
 
 #include <fcntl.h>
+#include <float.h>
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 #include "utils/aux.h"
 
-#define DEVICE_PATH "/dev/gpp_data_bus"
+static int device_fd = -1;
 
-void write_data(u64_t fd, u64_t data) {
-  ssize_t result = write(fd, &data, sizeof(data));
+void write_data(u64_t data) {
+  device_fd = open(DEVICE_PATH, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+
+  if (device_fd == -1) {
+    perror("Falha ao abrir o dispositivo");
+    exit(EXIT_FAILURE);
+  }
+
+  ssize_t result = write(device_fd, &data, sizeof(data));
+
   if (result == -1) {
     perror("Falha na escrita do dispositivo");
     exit(EXIT_FAILURE);
   }
 }
 
-u64_t read_data(u64_t fd) {
+u64_t read_data() {
   u64_t data;
-  ssize_t result = read(fd, &data, sizeof(data));
+  ssize_t result = read(device_fd, &data, sizeof(data));
+
   if (result == -1) {
     perror("Falha na leitura do dispositivo");
     exit(EXIT_FAILURE);
   }
 
   return data;
+}
+
+int close_data() {
+  if (close(device_fd) == -1) {
+    perror("Falha no encerramento do dispositivo\n");
+    return -1;
+  }
+  return 0;
 }
 
 u64_t set_background_block(ground_block_t block) {
@@ -47,6 +68,9 @@ u64_t set_background_block(ground_block_t block) {
   strcat(instruction_str, dataB_str);
 
   u64_t instruction = strtoull(instruction_str, NULL, 2);
+
+  write_data(instruction);
+  close_data(device_fd);
 
   return instruction;
 }
@@ -68,6 +92,9 @@ u64_t set_fixed_sprite(sprite_fixed_t sprite) {
 
   u64_t instruction = strtoull(instruction_str, NULL, 2);
 
+  write_data(instruction);
+  close_data(device_fd);
+
   return instruction;
 }
 
@@ -87,6 +114,9 @@ u64_t set_dynamic_sprite(sprite_t sprite) {
   strcat(instruction_str, dataB_str);
 
   u64_t instruction = strtoull(instruction_str, NULL, 2);
+
+  write_data(instruction);
+  close_data(device_fd);
 
   return instruction;
 }
@@ -108,6 +138,9 @@ u64_t set_background_color(u8_t R, u8_t G, u8_t B) {
   strcat(instruction_str, dataB_str);
 
   u64_t instruction = strtoull(instruction_str, NULL, 2);
+
+  write_data(instruction);
+  close_data(device_fd);
 
   return instruction;
 }
@@ -132,11 +165,32 @@ u64_t set_polygon(polygon_t polygon) {
 
   u64_t instruction = strtoull(instruction_str, NULL, 2);
 
-  printf("\n%X\n", instruction);
+  write_data(instruction);
+  close_data(device_fd);
 
   return instruction;
 }
 
-void increase_coordinate(sprite_t *sp, int mirror) {}
+// u8_t increase_coordinate_sprite(sprite_t *sprite, int mirror) {
+//   u64_t angle_rad = sprite->direction * M_PI() / 180.0;
 
-int collision(sprite_t *sp1, sprite_t *sp2) {}
+//   int delta_x = (int)round(sprite->step_x * cos(angle_rad));
+//   int delta_y = (int)round(sprite->step_y * sin(angle_rad));
+
+//   if (sprite->coord_x < 0 || sprite->coord_x > 639 || sprite->coord_y < 0 || sprite->coord_y > 479) {
+//     if (mirror) {
+//       // Espelhar as coordenadas do sprite
+//       sprite->coord_x = clamp(sprite->coord_x, 0, 639);
+//       sprite->coord_y = clamp(sprite->coord_y, 0, 479);
+//     }
+//     return -1;
+//   }
+
+//   sprite->coord_x += delta_x;
+//   sprite->coord_y += delta_y;
+
+//   sprite_t sprite_copy = *sprite;
+//   set_dynamic_sprite(sprite_copy);
+
+//   return 0;
+// }

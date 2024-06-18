@@ -3,10 +3,6 @@
 #include "utils/types.h"
 #include "utils/ui.h"
 
-typedef enum sprite_type_t;
-
-typedef enum { SPRITE_NORMAL, SPRITE_FIXED } sprite_type_t;
-
 typedef struct sprite_t sprite_t;
 
 struct sprite_t {
@@ -54,9 +50,9 @@ struct ground_block_t {
   u8_t B;
 };
 
-void write_data(u64_t fd, u64_t data);
+void write_data(u64_t data);
 
-u64_t read_data(u64_t fd);
+u64_t read_data();
 
 u64_t set_background_block(ground_block_t block);
 
@@ -68,6 +64,4 @@ u64_t set_background_color(u8_t R, u8_t G, u8_t B);
 
 u64_t set_polygon(polygon_t polygon);
 
-void increase_coordinate(sprite_t *sp, int mirror);
-
-int collision(sprite_t *sp1, sprite_t *sp2);
+// u8_t increase_coordinate_sprite(sprite_t *sprite, int mirror);
