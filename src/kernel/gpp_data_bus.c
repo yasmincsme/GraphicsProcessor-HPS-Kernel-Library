@@ -6,6 +6,7 @@
 #include <linux/init.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
+#include <linux/delay.h>
 
 // #include "address_map_arm.h"
 
@@ -17,9 +18,11 @@
 #define DATA_A_OFFSET 0x70
 #define DATA_B_OFFSET 0x80
 #define WRREG_OFFSET 0xc0
+#define WRFULL_OFFSET 0xb0
 #define DATA_A_PHYS_ADDR (LW_VIRTUAL + DATA_A_OFFSET)
 #define DATA_B_PHYS_ADDR (LW_VIRTUAL + DATA_B_OFFSET)
 #define WREG_PHYS_ADDR (LW_VIRTUAL + WRREG_OFFSET)
+#define WRFULL_PHYS_ADDR (LW_VIRTUAL + WRFULL_OFFSET)
 
 // AONDE FICA O BRIDGE_SPAN?? E USA ESSA JOÇA?
 
@@ -33,6 +36,7 @@ static struct device *dataBusDevice = NULL;
 void __iomem *data_a_mem;
 void __iomem *data_b_mem;
 void __iomem *wreg_mem;
+void __iomem *wrfull_mem;
 
 /*Declaring default functions and the file operations*/
 static ssize_t data_bus_read(struct file *, char *, size_t, loff_t *);
@@ -104,6 +108,16 @@ static int __init data_bus_init(void) {
     return -EIO;
   }
 
+  wrfull_mem = ioremap(WRFULL_PHYS_ADDR, sizeof(uint32_t));
+  if (!wrfull_mem) {
+    printk(KERN_ALERT "Failed to map memory for WRFULL\n");
+    iounmap(wrfull_mem);
+    device_destroy(dataBusClass, MKDEV(majorNumber, 0));
+    class_destroy(dataBusClass);
+    unregister_chrdev(majorNumber, DEVICE_NAME);
+    return -EIO;
+  }
+
   return 0;
 }
 
@@ -111,6 +125,7 @@ static void __exit data_bus_exit(void) {
   iounmap(data_a_mem);
   iounmap(data_b_mem);
   iounmap(wreg_mem);
+  iounmap(wrfull_mem);
   device_destroy(dataBusClass, MKDEV(majorNumber, 0));
   class_destroy(dataBusClass);
   unregister_chrdev(majorNumber, DEVICE_NAME);
@@ -138,6 +153,17 @@ static ssize_t data_bus_write(struct file *filep, const char *buffer, size_t len
   uint64_t data;
   uint32_t data_a;
   uint32_t data_b;
+
+  uint32_t instruction_buffer;
+  instruction_buffer = ioread32(wrfull_mem);
+
+  while (instruction_buffer) {
+    instruction_buffer = ioread32(wrfull_mem);
+    if (instruction_buffer == 0){
+      msleep(2);
+      break;
+    }
+  }
 
   uint32_t start = 0x00000000;
   iowrite32(start, wreg_mem);
