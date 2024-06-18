@@ -67,11 +67,11 @@ u64_t set_background_block(ground_block_t block) {
 
   snprintf(instruction_str, sizeof(instruction_str), "%x%08x", dataA, dataB);
 
-  printf("%s\n", instruction_str); //1000010, 10010010
+  //printf("%s\n", instruction_str); //1000010, 10010010
 
   u64_t instruction = strtoull(instruction_str, NULL, 16);
 
-  printf("%x\n", instruction);
+  //printf("%x\n", instruction);
 
   write_data(instruction);
   close_data(device_fd);
@@ -85,17 +85,15 @@ u64_t set_fixed_sprite(sprite_fixed_t sprite) {
   u32_t dataA = sprite.data_register << 4 | opcode;
   u32_t dataB = sprite.ativo << 29 | sprite.coord_x << 19 | sprite.coord_y << 9 | sprite.offset;
 
-  char dataA_str[32];
-  char dataB_str[32];
   char instruction_str[65];
-
-  instruction_str[64] = '\0';
 
   snprintf(instruction_str, sizeof(instruction_str), "%x%08x", dataA, dataB);
 
   u64_t instruction = strtoull(instruction_str, NULL, 16);
 
-  printf("%s, %s\n", dataA_str, dataB_str); //10000000, 11001000001100100000001111
+  //printf("%sPO\n", instruction_str);
+
+  //printf("%s, %s\n", dataA_str, dataB_str); //10000000, 11001000001100100000001111
   
   write_data(instruction);
   close_data(device_fd);
@@ -119,6 +117,8 @@ u64_t set_dynamic_sprite(sprite_t sprite) {
 
   u64_t instruction = strtoull(instruction_str, NULL, 16);
 
+  //printf("%x\n", instruction_str);
+
   write_data(instruction);
   close_data(device_fd);
 
@@ -132,8 +132,8 @@ u64_t set_background_color(u8_t R, u8_t G, u8_t B) {
   u32_t dataA = reg << 4 | opcode;
   u32_t dataB = B << 6 | G << 3 | R;
 
-  char dataA_str[33];
-  char dataB_str[33];
+  char dataA_str[32];
+  char dataB_str[32];
   char instruction_str[65];
 
   instruction_str[64] = '\0';
@@ -163,7 +163,7 @@ u64_t set_polygon(polygon_t polygon) {
 
   snprintf(instruction_str, sizeof(instruction_str), "%x%08x", dataA, dataB);
 
-  printf("\n%s\n", instruction_str);
+  //printf("\n%s\n", instruction_str);
 
   u64_t instruction = strtoull(instruction_str, NULL, 16);
 
