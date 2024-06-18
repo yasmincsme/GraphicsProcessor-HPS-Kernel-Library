@@ -1,5 +1,11 @@
 {
     "editor.formatOnSave": true,
     "editor.formatOnPaste": false,
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+    "files.associations": {
+        "ui.h": "c",
+        "DATA_A.C": "cpp",
+        "data.C": "cpp",
+        "stdlib.h": "c"
+    }
 }
