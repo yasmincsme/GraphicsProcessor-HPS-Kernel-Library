@@ -27,25 +27,6 @@ int main(void) {
     set_background_block(block);
   }
 
-  // ground_block_t block_sun;
-  // block_sun.R = 6;
-  // block_sun.G = 7;
-  // block_sun.B = 7;
-
-  // set_background_block(block_sun);
-  // block_sun.address = 70;
-  // set_background_block(block_sun);
-  // block_sun.address = 71;
-  // set_background_block(block_sun);
-  // block_sun.address = 72;
-  // set_background_block(block_sun);
-  // block_sun.address = 103;
-  // set_background_block(block_sun);
-  // block_sun.address = 104;
-  // set_background_block(block_sun);
-  // block_sun.address = 105;
-
-
   //ÁRVORES
   sprite_fixed_t sprite_tree1;
   sprite_tree1.ativo = 1;
