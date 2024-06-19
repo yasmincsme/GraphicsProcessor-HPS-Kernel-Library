@@ -27,18 +27,24 @@ int main(void) {
     set_background_block(block);
   }
 
-  // //SOL
-  // polygon_t pol_sun;
-  // pol_sun.data_register = 15;
-  // pol_sun.type = 0;
-  // pol_sun.size = 5;
-  // pol_sun.ref_point_x = 300;
-  // pol_sun.ref_point_y = 300;
-  // pol_sun.R = 7;
-  // pol_sun.G = 7;
-  // pol_sun.B = 0;
+  // ground_block_t block_sun;
+  // block_sun.R = 6;
+  // block_sun.G = 7;
+  // block_sun.B = 7;
 
-  // set_polygon(pol_sun);
+  // set_background_block(block_sun);
+  // block_sun.address = 70;
+  // set_background_block(block_sun);
+  // block_sun.address = 71;
+  // set_background_block(block_sun);
+  // block_sun.address = 72;
+  // set_background_block(block_sun);
+  // block_sun.address = 103;
+  // set_background_block(block_sun);
+  // block_sun.address = 104;
+  // set_background_block(block_sun);
+  // block_sun.address = 105;
+
 
   //ÁRVORES
   sprite_fixed_t sprite_tree1;
@@ -76,6 +82,69 @@ int main(void) {
   sprite_tree4.coord_y = 460;
 
   set_fixed_sprite(sprite_tree4);
+
+  sprite_fixed_t sprite_tree5;
+  sprite_tree5.ativo = 1;
+  sprite_tree5.data_register = 5;
+  sprite_tree5.offset = 4;
+  sprite_tree5.coord_x = 360;
+  sprite_tree5.coord_y = 400;
+
+  set_fixed_sprite(sprite_tree5);
+
+  sprite_fixed_t sprite_tree6;
+  sprite_tree6.ativo = 1;
+  sprite_tree6.data_register = 6;
+  sprite_tree6.offset = 4;
+  sprite_tree6.coord_x = 230;
+  sprite_tree6.coord_y = 400;
+
+  set_fixed_sprite(sprite_tree6);
+
+  sprite_fixed_t sprite_tree7;
+  sprite_tree7.ativo = 1;
+  sprite_tree7.data_register = 7;
+  sprite_tree7.offset = 4;
+  sprite_tree7.coord_x = 295;
+  sprite_tree7.coord_y = 350;
+
+  set_fixed_sprite(sprite_tree7);
+
+  sprite_fixed_t sprite_tree8;
+  sprite_tree8.ativo = 1;
+  sprite_tree8.data_register = 8;
+  sprite_tree8.offset = 4;
+  sprite_tree8.coord_x = 30;
+  sprite_tree8.coord_y = 355;
+
+  set_fixed_sprite(sprite_tree8);
+
+  sprite_fixed_t sprite_tree9;
+  sprite_tree9.ativo = 1;
+  sprite_tree9.data_register = 9;
+  sprite_tree9.offset = 4;
+  sprite_tree9.coord_x = 40;
+  sprite_tree9.coord_y = 450;
+
+  set_fixed_sprite(sprite_tree9);
+
+  sprite_fixed_t sprite_tree10;
+  sprite_tree10.ativo = 1;
+  sprite_tree10.data_register = 10;
+  sprite_tree10.offset = 4;
+  sprite_tree10.coord_x = 500;
+  sprite_tree10.coord_y = 450;
+
+  set_fixed_sprite(sprite_tree10);
+
+  sprite_fixed_t sprite_tree11;
+  sprite_tree11.ativo = 1;
+  sprite_tree11.data_register = 11;
+  sprite_tree11.offset = 4;
+  sprite_tree11.coord_x = 550;
+  sprite_tree11.coord_y = 350;
+
+  set_fixed_sprite(sprite_tree11);
 
   //BASE DO CASTELO
   polygon_t polygon_1;
@@ -217,5 +286,68 @@ int main(void) {
 
   set_polygon(pol_door);
 
+  //SOL
+  polygon_t pol_sun;
+  pol_sun.data_register = 1;
+  pol_sun.type = 0;
+  pol_sun.size = 5;
+  pol_sun.ref_point_x = 80;
+  pol_sun.ref_point_y = 80;
+  pol_sun.R = 7;
+  pol_sun.G = 5;
+  pol_sun.B = 0;
+
+  set_polygon(pol_sun);
+
+  //NÚVENS
+  ground_block_t block_cloud;
+  block_cloud.R = 7;
+  block_cloud.G = 7;
+  block_cloud.B = 7;
+
+  block_cloud.address = 500;
+  set_background_block(block_cloud);
+  block_cloud.address = 501;
+  set_background_block(block_cloud);
+  block_cloud.address = 502;
+  set_background_block(block_cloud);
+  block_cloud.address = 503;
+  set_background_block(block_cloud);
+
+  block_cloud.address = 579;
+  set_background_block(block_cloud);
+  block_cloud.address = 580;
+  set_background_block(block_cloud);
+  block_cloud.address = 581;
+  set_background_block(block_cloud);
+  block_cloud.address = 582;
+  set_background_block(block_cloud);
+  block_cloud.address = 583;
+  set_background_block(block_cloud);
+  block_cloud.address = 584;
+  set_background_block(block_cloud);
+
+  block_cloud.address = 905;
+  set_background_block(block_cloud);
+  block_cloud.address = 906;
+  set_background_block(block_cloud);
+  block_cloud.address = 907;
+  set_background_block(block_cloud);
+  block_cloud.address = 908;
+  set_background_block(block_cloud);
+
+  block_cloud.address = 984;
+  set_background_block(block_cloud);
+  block_cloud.address = 985;
+  set_background_block(block_cloud);
+  block_cloud.address = 986;
+  set_background_block(block_cloud);
+  block_cloud.address = 987;
+  set_background_block(block_cloud);
+  block_cloud.address = 988;
+  set_background_block(block_cloud);
+  block_cloud.address = 989;
+  set_background_block(block_cloud);
+  
   return 0;
 }
