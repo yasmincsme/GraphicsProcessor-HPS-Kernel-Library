@@ -194,3 +194,27 @@ void clean_background() {
     set_background_block(null_block);
   }
 }
+
+// u8_t increase_coordinate_sprite(sprite_t *sprite, int mirror) {
+//   u64_t angle_rad = sprite->direction * M_PI() / 180.0;
+
+//   int delta_x = (int)round(sprite->step_x * cos(angle_rad));
+//   int delta_y = (int)round(sprite->step_y * sin(angle_rad));
+
+//   if (sprite->coord_x < 0 || sprite->coord_x > 639 || sprite->coord_y < 0 || sprite->coord_y > 479) {
+//     if (mirror) {
+//       // Espelhar as coordenadas do sprite
+//       sprite->coord_x = clamp(sprite->coord_x, 0, 639);
+//       sprite->coord_y = clamp(sprite->coord_y, 0, 479);
+//     }
+//     return -1;
+//   }
+
+//   sprite->coord_x += delta_x;
+//   sprite->coord_y += delta_y;
+
+//   sprite_t sprite_copy = *sprite;
+//   set_dynamic_sprite(sprite_copy);
+
+//   return 0;
+// }
