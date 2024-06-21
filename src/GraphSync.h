@@ -123,3 +123,5 @@ void clean_sprite();
 void clean_polygon();
 
 void clean_background();
+
+void draw_picture();
