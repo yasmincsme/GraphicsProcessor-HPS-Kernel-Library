@@ -9,11 +9,10 @@
 #include "GraphSync.h"
 
 int main(void) {
+  // BACKGROUND
+  u64_t instruction1 = set_background_color(2, 2, 3);
 
-  //BACKGROUND
-  u64_t instruction1 = set_background_color(4, 5, 6);
-
-  //BACKGROUND BLOCKS
+  // BACKGROUND BLOCKS
   ground_block_t block;
   block.address = 3000;
   block.R = 1;
@@ -27,7 +26,7 @@ int main(void) {
     set_background_block(block);
   }
 
-  //ÁRVORES
+  // ÁRVORES
   sprite_fixed_t sprite_tree1;
   sprite_tree1.ativo = 1;
   sprite_tree1.data_register = 1;
@@ -127,7 +126,7 @@ int main(void) {
 
   set_fixed_sprite(sprite_tree11);
 
-  //BASE DO CASTELO
+  // BASE DO CASTELO
   polygon_t polygon_1;
   polygon_1.data_register = 14;
   polygon_1.type = 0;
@@ -140,9 +139,9 @@ int main(void) {
 
   set_polygon(polygon_1);
 
-  //TORRES DO CASTELO
+  // TORRES DO CASTELO
 
-  //TORRE 1
+  // TORRE 1
   polygon_t pol_tower_1;
   pol_tower_1.data_register = 5;
   pol_tower_1.type = 0;
@@ -167,7 +166,7 @@ int main(void) {
 
   set_polygon(pol_tower_11);
 
-  //TORRE 2
+  // TORRE 2
   polygon_t pol_tower_2;
   pol_tower_2.data_register = 7;
   pol_tower_2.type = 0;
@@ -192,7 +191,7 @@ int main(void) {
 
   set_polygon(pol_tower_22);
 
-  //TORRE 3
+  // TORRE 3
   polygon_t pol_tower_3;
   pol_tower_3.data_register = 9;
   pol_tower_3.type = 0;
@@ -217,7 +216,7 @@ int main(void) {
 
   set_polygon(pol_tower_33);
 
-  //TELHADOS
+  // TELHADOS
   polygon_t pol_tel_1;
   pol_tel_1.data_register = 11;
   pol_tel_1.type = 1;
@@ -254,7 +253,7 @@ int main(void) {
 
   set_polygon(pol_tel_3);
 
-  //PORTA DO CASTELO
+  // PORTA DO CASTELO
   polygon_t pol_door;
   pol_door.data_register = 4;
   pol_door.type = 0;
@@ -267,7 +266,7 @@ int main(void) {
 
   set_polygon(pol_door);
 
-  //SOL
+  // SOL
   polygon_t pol_sun;
   pol_sun.data_register = 1;
   pol_sun.type = 0;
@@ -280,7 +279,7 @@ int main(void) {
 
   set_polygon(pol_sun);
 
-  //NÚVENS
+  // NÚVENS
   ground_block_t block_cloud;
   block_cloud.R = 7;
   block_cloud.G = 7;
@@ -329,6 +328,6 @@ int main(void) {
   set_background_block(block_cloud);
   block_cloud.address = 989;
   set_background_block(block_cloud);
-  
+
   return 0;
 }
