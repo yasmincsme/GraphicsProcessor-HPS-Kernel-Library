@@ -152,3 +152,45 @@ u64_t set_polygon(polygon_t polygon) {
 
   return instruction;
 }
+
+void clean_sprite() {
+  sprite_fixed_t sprite;
+  sprite.ativo = 0;
+
+  u8_t i;
+  for (i = 0; i <= 32; ++i) {
+    sprite.data_register = i;
+    set_fixed_sprite(sprite);
+  }
+}
+
+void clean_polygon() {
+  polygon_t null_polygon;
+
+  null_polygon.type = 0;
+  null_polygon.size = 0;
+  null_polygon.ref_point_x = 50;
+  null_polygon.ref_point_y = 50;
+  null_polygon.R = 5;
+  null_polygon.G = 3;
+  null_polygon.B = 4;
+
+  u8_t i;
+  for (i = 0; i <= 32; ++i) {
+    null_polygon.data_register = i;
+    set_polygon(null_polygon);
+  }
+}
+
+void clean_background() {
+  ground_block_t null_block;
+  null_block.R = 1;
+  null_block.G = 1;
+  null_block.B = 1;
+
+  u8_t i;
+  for (i = 0; i < 4800; ++i) {
+    null_block.address = i;
+    set_background_block(null_block);
+  }
+}
