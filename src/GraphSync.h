@@ -117,3 +117,9 @@ u64_t set_background_color(u32_t R, u32_t G, u32_t B);
  * @return The final instruction that will be send to the device hardware.
  */
 u64_t set_polygon(polygon_t polygon);
+
+void clean_sprite();
+
+void clean_polygon();
+
+void clean_background();
