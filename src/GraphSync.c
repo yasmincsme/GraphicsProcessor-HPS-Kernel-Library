@@ -11,14 +11,12 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-//#include "utils/aux.h"
+#include "utils/aux.h"
 
 static int device_fd = -1;
 
 void write_data(u64_t data) {
-  //device_fd = open(DEVICE_PATH, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
   device_fd = open(DEVICE_PATH, O_WRONLY | O_CREAT | O_TRUNC);
-
 
   if (device_fd == -1) {
     perror("Falha ao abrir o dispositivo");
@@ -45,8 +43,10 @@ u64_t read_data() {
   return data;
 }
 
-int close_data() {
-  if (close(device_fd) == -1) {
+u8_t close_data() {
+  ssize_t result = close(device_fd);
+
+  if (result == -1) {
     perror("Falha no encerramento do dispositivo\n");
     return -1;
   }
@@ -59,19 +59,13 @@ u64_t set_background_block(ground_block_t block) {
   u32_t dataA = memory_address << 4 | opcode;
   u32_t dataB = block.B << 6 | block.G << 3 | block.R;
 
-  char dataA_str[32];
-  char dataB_str[32];
   char instruction_str[65];
 
   instruction_str[64] = '\0';
 
   snprintf(instruction_str, sizeof(instruction_str), "%x%08x", dataA, dataB);
 
-  //printf("%s\n", instruction_str); //1000010, 10010010
-
   u64_t instruction = strtoull(instruction_str, NULL, 16);
-
-  //printf("%x\n", instruction);
 
   write_data(instruction);
   close_data(device_fd);
@@ -91,10 +85,6 @@ u64_t set_fixed_sprite(sprite_fixed_t sprite) {
 
   u64_t instruction = strtoull(instruction_str, NULL, 16);
 
-  //printf("%sPO\n", instruction_str);
-
-  //printf("%s, %s\n", dataA_str, dataB_str); //10000000, 11001000001100100000001111
-  
   write_data(instruction);
   close_data(device_fd);
 
@@ -107,8 +97,6 @@ u64_t set_dynamic_sprite(sprite_t sprite) {
   u32_t dataA = sprite.data_register << 4 | opcode;
   u32_t dataB = sprite.ativo << 29 | sprite.coord_x << 19 | sprite.coord_y << 9 | sprite.offset;
 
-  char dataA_str[32];
-  char dataB_str[32];
   char instruction_str[65];
 
   instruction_str[64] = '\0';
@@ -117,23 +105,19 @@ u64_t set_dynamic_sprite(sprite_t sprite) {
 
   u64_t instruction = strtoull(instruction_str, NULL, 16);
 
-  //printf("%x\n", instruction_str);
-
   write_data(instruction);
   close_data(device_fd);
 
   return instruction;
 }
 
-u64_t set_background_color(u8_t R, u8_t G, u8_t B) {
+u64_t set_background_color(u32_t R, u32_t G, u32_t B) {
   u8_t opcode = 0b0000;
   u8_t reg = 0b00000;
 
   u32_t dataA = reg << 4 | opcode;
   u32_t dataB = B << 6 | G << 3 | R;
 
-  char dataA_str[32];
-  char dataB_str[32];
   char instruction_str[65];
 
   instruction_str[64] = '\0';
@@ -155,15 +139,11 @@ u64_t set_polygon(polygon_t polygon) {
   u32_t dataB = polygon.type << 31 | polygon.B << 28 | polygon.G << 25 | polygon.R << 22 | polygon.size << 18 |
                 polygon.ref_point_y << 9 | polygon.ref_point_x;
 
-  char dataA_str[32];
-  char dataB_str[32];
   char instruction_str[65];
 
   instruction_str[64] = '\0';
 
   snprintf(instruction_str, sizeof(instruction_str), "%x%08x", dataA, dataB);
-
-  //printf("\n%s\n", instruction_str);
 
   u64_t instruction = strtoull(instruction_str, NULL, 16);
 
@@ -172,27 +152,3 @@ u64_t set_polygon(polygon_t polygon) {
 
   return instruction;
 }
-
-// u8_t increase_coordinate_sprite(sprite_t *sprite, int mirror) {
-//   u64_t angle_rad = sprite->direction * M_PI() / 180.0;
-
-//   int delta_x = (int)round(sprite->step_x * cos(angle_rad));
-//   int delta_y = (int)round(sprite->step_y * sin(angle_rad));
-
-//   if (sprite->coord_x < 0 || sprite->coord_x > 639 || sprite->coord_y < 0 || sprite->coord_y > 479) {
-//     if (mirror) {
-//       // Espelhar as coordenadas do sprite
-//       sprite->coord_x = clamp(sprite->coord_x, 0, 639);
-//       sprite->coord_y = clamp(sprite->coord_y, 0, 479);
-//     }
-//     return -1;
-//   }
-
-//   sprite->coord_x += delta_x;
-//   sprite->coord_y += delta_y;
-
-//   sprite_t sprite_copy = *sprite;
-//   set_dynamic_sprite(sprite_copy);
-
-//   return 0;
-// }
