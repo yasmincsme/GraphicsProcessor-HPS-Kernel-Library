@@ -7,33 +7,50 @@ Biblioteca para o processador gráfico projetado, destinada a ser usada com o HP
 ## Sumário
 - [Visão Geral do Projeto](#visao-geral-do-projeto)
 - [Referências](#referências)
-- [Configuração de ambiente e execução](#configuracao-de-ambiente-e-execucao)
+- [Configurações de ambiente e execução](#configuracoes-de-ambiente-e-execucao)
 
-## Configuração de ambiente e execução
 
-Para acessar o material desenvolvido, clone o repositório disponível na plataforma do GitHub usando o seguinte comando no terminal Linux:
+## Desenvolvimento da Biblioteca
 
-```
+<img width="" src="https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/pixelbuffer.jpg">
 
+## Configurações de Ambiente e Execução
+
+Primeiramente, conecte a placa à energia e aos cabos de rede e VGA. Além disso, certifique-se de que a GPU, para a qual a biblioteca foi modelada, está embarcada na FPGA da placa DE1-SoC.
+
+Para acessar o material desenvolvido, clone o repositório disponível na plataforma GitHub utilizando o seguinte comando no terminal Linux:
+
+```bash
 git clone https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library.git
-
 ```
 
-Caso o processo de clonagem seja bem-sucedido, para compilar e carregar o módulo kernel desenvolvido, insira no terminal os comandos abaixo.
+Após clonar o repositório com sucesso, conecte-se à placa via SSH. Para isso, é necessário conhecer o IP da placa. Por exemplo, se o IP for `10.0.0.124`, use o seguinte comando:
 
+```bash
+ssh aluno@10.0.0.124
 ```
 
+Em seguida, transfira a pasta clonada do seu computador para o sistema de arquivos da placa:
+
+```bash
+mv GraphicsProcessor-HPS-Kernel-Library/ [caminho do destino]
+```
+
+Para compilar e carregar o módulo do kernel desenvolvido, navegue até o diretório `src` do repositório e execute os seguintes comandos:
+
+```bash
 cd GraphicsProcessor-HPS-Kernel-Library/src/
-
-```
-
-```
-
 make kernel load
-
 ```
 
-A diretiva `make kernel` irá gerar os arquivos de compilação do módulo _gpp_data_bus.c_ e o `load` irá carregá-lo no computador como qualquer outro driver de dispositivo. \observe que podemos encontrar  problemas ao tentar carregar um módulo de kernel em um sistema Linux. Existem várias causas possíveis para esse problema e diversas maneiras de solucioná-lo.
+O comando `make kernel` gerará os arquivos de compilação do módulo `gpp_data_bus.c`, e `load` o carregará no sistema como qualquer outro driver de dispositivo. Note que podem ocorrer problemas ao tentar carregar um módulo de kernel devido a permissões de dispositivo.
 
-Inicialmente, é necessário checar se o usuário tem as permissões necessárias para carregar módulos do kernel. Normalmente, isso requer privilégios de superusuário.
+Se a operação for bem-sucedida, prossiga para compilar a biblioteca:
 
+```bash
+make build run
+```
+
+O comando `run` executará o arquivo gerado durante o processo de compilação.
+
+---
