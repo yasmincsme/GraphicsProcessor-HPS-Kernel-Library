@@ -12,7 +12,7 @@ Biblioteca para o processador gráfico projetado, destinada a ser usada com o HP
 
 ## Desenvolvimento da Biblioteca
 
-<img width="" src="https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/pixelbuffer.jpg">
+<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/fluxograma_write.jpg">
 
 ## Configurações de Ambiente e Execução
 
