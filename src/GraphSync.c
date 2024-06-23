@@ -43,14 +43,13 @@ u64_t read_data() {
   return data;
 }
 
-u8_t close_data() {
+void close_data() {
   ssize_t result = close(device_fd);
 
   if (result == -1) {
     perror("Falha no encerramento do dispositivo\n");
-    return -1;
+    exit(EXIT_FAILURE);
   }
-  return 0;
 }
 
 u64_t set_background_block(ground_block_t block) {
