@@ -5,12 +5,27 @@
 Biblioteca para o processador gráfico projetado, destinada a ser usada com o HPS (Hard Processor System) na plataforma DE1-SoC.
 
 ## Sumário
-- [Visão Geral do Projeto](#visao-geral-do-projeto)
-- [Referências](#referências)
+- [Contextualização](#contextualizacao)
+- [Recursos utilizados](recursos-utilizados)
+- [Modelagem e Organização da Arquitetura](modelagem-e-organizacao-da-arquitetura)
+    - [Arquitetura do Processador Gráfico](arquitetura-do-processador-grafico)
+    - [Instruções do Processador Gráfico](instrucoes-do-processador-grafico)
+    - [Protocolo de Comunicação entre o HPS e o Processador Gráfico](protocolo-de-comunicacao-entre-o-hps-e-o-processador-grafico)
+- [Módulo Kernel]()
+- [Desenvolvimento da Biblioteca](desenvolvimento-da-biblioteca)
+    - [Comunicação entre a biblioteca e o módulo kernel](comunicacao-entre-a-biblioteca-e-o-modulo-kernel)
+    - [Algoritmo para implementação das funções da GPU](Algoritmo-para-implementacao-das-funcoes-da-gpu)
+    - [Fluxograma de Exibição da Imagem no Monitor](fluxograma-para-exibicao-da-imagem-no-monitor)
+
 - [Configurações de ambiente e execução](#configuracoes-de-ambiente-e-execucao)
+- [Referências](#referências)
 
 
 ## Desenvolvimento da Biblioteca
+
+Para estabelecer a comunicação entre a biblioteca e o módulo de Kernel, fazemos uso das instruções `write_data()`, `read_data` e `close_data`.
+
+A função `write_data()`, como o nome pressupõe, efetua a escrita 
 
 <img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/write_data.jpg">
 
