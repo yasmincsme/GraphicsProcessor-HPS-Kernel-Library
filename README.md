@@ -7,6 +7,9 @@ Biblioteca para o processador gráfico projetado, destinada a ser usada com o HP
 ## Sumário
 - [Contextualização](#contextualizacao)
 - [Recursos utilizados](recursos-utilizados)
+    - [Hardware](hardware)
+    - [Software e Ferramentas](software-e-ferramentas)
+    - [Bibliotecas e Dependências](bibliotecas-e-dependencias)
 - [Modelagem e Organização da Arquitetura](modelagem-e-organizacao-da-arquitetura)
     - [Arquitetura do Processador Gráfico](arquitetura-do-processador-grafico)
     - [Instruções do Processador Gráfico](instrucoes-do-processador-grafico)
@@ -19,6 +22,80 @@ Biblioteca para o processador gráfico projetado, destinada a ser usada com o HP
 
 - [Configurações de ambiente e execução](#configuracoes-de-ambiente-e-execucao)
 - [Referências](#referências)
+
+## Contextualização
+
+Este projeto foi desenvolvido para atender aos requisitos do _Problema 2 - Barramento_ do componente curricular TEC499 - Módulo Integrador de Sistemas Digitais. O objetivo principal é conceber um Módulo Kernel que possibilite a comunicação entre o processador de propósito geral da placa DE1-SoC e o processador gráfico embarcado na FPGA da mesma placa. Além disso, o projeto exige o desenvolvimento de uma biblioteca para facilitar o acesso geral aos recursos do sistema, garantindo uma integração eficiente e acessível entre os componentes de hardware e software.
+
+## Recursos Utilizados
+
+### Hardware
+
+### Software e Ferramentas
+
+#### Sistema Operacional:
+
+#### Compilador
+ 
+#### Ferramentas de Desenvolvimento
+
+#### Linguagens de Programação
+
+
+### Bibliotecas e Dependências
+
+#### Bibliotecas C
+
+* **Bibliotecas de Kernel do Linux**
+
+    * `asm/io.h:` Manipulação de operações de entrada/saída a nível de hardware;
+
+    * `asm/uaccess.h:` Acesso a dados do espaço do usuário a partir do kernel;
+
+    * `linux/cdev.h:` Manipulação de dispositivos de caracteres;
+
+    * `linux/delay.h:` Funções para criar atrasos temporais no kernel;
+
+    * `linux/device.h:` Manipulação de dispositivos no kernel;
+
+    * `linux/fs.h:` Interface para operações de sistemas de arquivos;
+
+    * `linux/init.h:` Macros de inicialização e finalização de módulos;
+
+    * `linux/kernel.h:` Definições e funções do kernel;
+
+    * `linux/module.h:` Macros e funções para criação de módulos de kernel.
+
+* **Bibliotecas Padrão do C**
+
+    * `fcntl.h:` Manipulação de descritores de arquivos.
+
+    * `float.h:` Constantes e funções para manipulação de números de ponto flutuante.
+
+    * `math.h:` Funções matemáticas.
+
+    * `stdint.h:` Definições de tipos inteiros com largura específica.
+
+    * `stdio.h:` Funções de entrada/saída padrão.
+
+    * `stdlib.h:` Funções utilitárias gerais, incluindo gerenciamento de memória, processos e conversões.
+
+    * `string.h:` Funções para manipulação de strings.
+
+    * `sys/mman.h:` Funções para mapeamento de memória.
+
+    * `sys/stat.h:` Estruturas e funções para obter informações sobre arquivos.
+
+    * `unistd.h:` Declarações de funções POSIX e constantes.
+
+* **Bibliotecas de Manipulação de Erros**
+
+    * `errno.h:` Macros para reporte de erros.
+
+
+
+
+#### Dependências do Sistema
 
 
 ## Desenvolvimento da Biblioteca
