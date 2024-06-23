@@ -12,7 +12,10 @@ Biblioteca para o processador gráfico projetado, destinada a ser usada com o HP
 
 ## Desenvolvimento da Biblioteca
 
-<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/fluxograma_write.jpg">
+<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/write_data.jpg">
+
+
+<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/write_data.jpg">
 
 ## Configurações de Ambiente e Execução
 
