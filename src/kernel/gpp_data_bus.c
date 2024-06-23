@@ -1,4 +1,3 @@
-```c
 #include <asm/io.h>
 #include <asm/uaccess.h>
 #include <linux/cdev.h>
