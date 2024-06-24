@@ -80,6 +80,12 @@ A fim de realizar a conexão do Processador Gráfico na FPGA com o Processador n
 
 O objetivo principal deste módulo de kernel é fornecer uma interface eficiente para escrita e leitura em dois barramentos, DATA_A e DATA_B, que conectam o processador HPS da placa DE1-SoC ao processador gráfico, facilitando a comunicação e melhorando o desempenho do sistema.
 
+### Desenvolvimento do Módulo de Kernel
+
+1. Definição da Interface
+2. Drive de Caracteres
+3. 
+
 ## Desenvolvimento da Biblioteca
 
 Para estabelecer a comunicação entre a biblioteca e o módulo de Kernel, fazemos uso das instruções `write_data()`, `read_data` e `close_data`.
