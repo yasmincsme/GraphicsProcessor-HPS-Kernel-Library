@@ -31,15 +31,47 @@ Este projeto foi desenvolvido para atender aos requisitos do _Problema 2 - Barra
 
 ### Hardware
 
+
+
 ### Software e Ferramentas
 
-#### Sistema Operacional:
+**Sistema Operacional**: 
 
-#### Compilador
- 
-#### Ferramentas de Desenvolvimento
+- **Ubuntu 22.04**:
+  - Interface gráfica GNOME;
+  - Repositórios robustos e atualizações de segurança regulares;
+  - Ambiente estável e otimizado para diversas plataformas de hardware.
 
-#### Linguagens de Programação
+- **Linux Mint Cinnamon**:
+  - Baseado no Ubuntu, com suporte a longo prazo;
+  - Conjunto completo de aplicativos e drivers pré-instalados.
+
+**Compilador**: 
+
+- **GNU Compiler Collection (GCC)**:
+  - Compilador robusto e altamente compatível com padrões de linguagem;
+  - Suporte a várias linguagens, incluindo C, C++, Fortran, e mais;
+  - Otimizações de código para melhorar o desempenho do software.
+  
+**Ferramentas de Desenvolvimento**:
+
+- **Visual Studio Code**:
+  - Editor de código-fonte leve com suporte a extensões;
+  - Integração com Git para controle de versão e GitHub para colaboração;
+  - Ferramentas avançadas de depuração e personalização da interface.
+
+- **Git e GitHub**:
+  - Sistema de controle de versão distribuído para rastreamento de alterações no código;
+  - GitHub como plataforma de hospedagem de repositórios Git na nuvem;
+  - Facilita colaboração, revisão de código e integração contínua/desenvolvimento contínuo.
+
+**Linguagem de Programação**: 
+
+- **C**:
+  - Linguagem de programação de propósito geral com foco em eficiência e controle;
+  - Altamente portável e adequada para desenvolvimento de sistemas e aplicações de baixo nível;
+  - Base para muitas outras linguagens e bibliotecas importantes;
+  - Suporte extenso da comunidade e ampla aplicação em sistemas operacionais, drivers e aplicativos críticos.
 
 
 ### Dependências
