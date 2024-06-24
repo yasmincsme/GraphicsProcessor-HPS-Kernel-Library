@@ -182,19 +182,23 @@ Após a inserção da instrução nos barramentos dataA e dataB, deve-se colocar
 
 O processador de propósito geral acessa a FPGA usando as pontes HPS-to-FPGA ou Lightweight HPS-to-FPGA. Essas pontes são mapeadas para regiões no espaço de memória do HPS. A fim de realizar a conexão do Processador Gráfico na FPGA com o Processador no HPS de forma mais facilitada, sem a necessidade de realizar o mapeamento de memória a cada acesso ao GPU, foi desenvolvido um módulo de kernel. Um módulo de kernel é um código que pode ser carregado e descarregado no kernel do sistema operacional Linux sem precisar recompilar ou reiniciar o sistema. Ele atua como uma extensão do kernel, adicionando novas funcionalidades ou suporte a novos dispositivos de hardware.
 
-No Linux, existe uma grande diferença entre o espaço do Kernel e o espaço do usuário. O es
+No Linux, existe uma grande diferença entre o espaço do Kernel e o espaço do usuário. O espaço do Kernel é uma área de memória reservada para a execução do núcleo do sistema operacional e seus módulos, onde o kernel tem controle total e pode acessar diretamente o hardware. Este espaço é privilegiado e seguro, prevenindo que aplicações de usuário possam interferir no funcionamento do sistema operacional. Por outro lado, o espaço do usuário é destinado à execução de aplicações e programas, sendo uma área menos privilegiada que não permite acesso direto ao hardware ou à memória do kernel, garantindo a estabilidade e segurança do sistema ao isolar as aplicações umas das outras e do núcleo do sistema.
 
-O objetivo principal deste módulo de kernel é fornecer uma interface eficiente para escrita e leitura em dois barramentos, DATA A e DATA B, que conectam o processador HPS da placa DE1-SoC ao processador gráfico, facilitando a comunicação e melhorando o desempenho do sistema.
+Para conectar esses dois espaços, é possível gerar um arquivo (exclusivo para o hardware a ser acessado) que pode ser lido e/ou escrito, através de um driver de carácter, como mostrado no esquema da figura a seguir:
+
+<img width="" src="">
+
+O objetivo principal do módulo de kernel desenvolvido é fornecer uma interface eficiente para escrita e leitura em dois barramentos, DATA A e DATA B, que conectam o processador HPS da placa DE1-SoC ao processador gráfico, facilitando a comunicação e melhorando o desempenho do sistema.
 
 ### Desenvolvimento do Módulo de Kernel
 
 Para o devido funcionamento do módulo de kernel, alguns passos foram seguidos em seu desenvolvimento.
 
 1. Definição da Interface:
-Para iniciar foram definidas as bibliotecas a serem importadas para o funcionamento completo do código. Algumas bibilotecas da linguagem C não podem ser utilizadas 
+Para iniciar foram definidas as bibliotecas a serem importadas para o funcionamento completo do código. Algumas bibilotecas da linguagem C não podem ser utilizadas em códigos do espaço do kernel, então nesses casos
 
 2. Drive de Caracteres
-3.  
+3. 
 
 ## Desenvolvimento da Biblioteca
 
