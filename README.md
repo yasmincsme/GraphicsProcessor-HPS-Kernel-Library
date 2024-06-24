@@ -19,7 +19,6 @@ Biblioteca para o processador gráfico projetado, destinada a ser usada com o HP
     - [Comunicação entre a biblioteca e o módulo kernel](comunicacao-entre-a-biblioteca-e-o-modulo-kernel)
     - [Algoritmo para implementação das funções da GPU](Algoritmo-para-implementacao-das-funcoes-da-gpu)
     - [Fluxograma de Exibição da Imagem no Monitor](fluxograma-para-exibicao-da-imagem-no-monitor)
-
 - [Configurações de ambiente e execução](#configuracoes-de-ambiente-e-execucao)
 - [Referências](#referências)
 
@@ -128,6 +127,57 @@ Os monitores CRT (Cathode Ray Tube) foram a tecnologia predominante para telas d
     git config --global user.email "seu.email@example.com"
     ```
 
+## Modelagem e Organização da Arquitetura
+
+A primeira etapa do processo de renderização consistiu na inicialização de duas memórias responsáveis por armazenar os bits de cores RGB dos sprites e do background da tela. A segunda etapa corresponde ao controle de impressão dos elementos da tela, como os sprites. O padrão gráfico escolhido foi o VGA com uma resolução de 640x480 pixels. Como a varredura de um monitor VGA é realizada da esquerda para a direita e de cima para baixo, ao finalizar a varredura de toda a área ativa da tela, os sprites podem ser atualizados, de forma que, no próximo frame, eles sejam redesenhados de acordo com as novas definições.
+
+Cada jogo implementado por meio da arquitetura proposta deve ser programado utilizando a linguagem C através de um processador de propósito geral. Como as informações dos sprites são armazenadas a nível de hardware, as atualizações são feitas através de instruções (comandos) enviadas ao módulo gráfico responsável pelo processo de renderização dos jogos. O processo de renderização é independente e executa todo o controle sem a necessidade de intervenções via software. Com isso, o código em linguagem C ficará responsável por definir a lógica do jogo e enviar os comandos de atualização das informações pertencentes aos objetos a serem renderizados.
+
+Com base nesse princípio de funcionamento, temos a modelagem da arquitetura apresentada na Fig. 3. Sua estrutura consiste em um processador de propósito geral, duas FIFOs (First In First Out), uma PLL (Phase Locked Loop) e um Processador Gráfico. Para atuar como processador de propósito geral foi escolhido o Nios II, um processador softcore RISC de 32 bits com arquitetura Harvard desenvolvido pela empresa Altera. Sua função é executar o código-fonte em linguagem C dos jogos que serão programados. O Processador Gráfico é responsável por gerenciar o processo de renderização dos jogos e executar um conjunto de instruções que permitem inicialmente mover e controlar sprites, como também modificar o layout do background da tela e renderizar polígonos do tipo quadrado e triângulo. As principais saídas do Processador Gráfico consistem nos sinais de sincronização horizontal (h sync) e vertical (v sync) do monitor VGA, e os bits de cores RGB. Como o Nios II e o Processador Gráfico possuem frequências de clock e controle distintos, as FIFOs são utilizadas como dispositivos intermediários para comunicação. A PLL é responsável por gerar as frequências de clock necessárias para o correto funcionamento da arquitetura. O Nios II armazena nas FIFOs todas as instruções que devem ser executadas pelo Processador Gráfico. O módulo Gerador de Pulso é responsável por gerar um único pulso de escrita em sincronização com o sinal wrclk; por consequência, os dados de instrução presentes nos barramentos dataA e dataB serão armazenados nas FIFOs uma única vez. Cada FIFO possui inicialmente a capacidade de armazenar 16 palavras de 32 bits. Quando o sinal wrfull está em nível lógico alto, significa que as FIFOs alcançaram sua capacidade máxima. Desta forma, o circuito interno de proteção das FIFOs é ativado automaticamente para evitar possíveis overflows. As FIFOs facilitam o processo de modelagem de novas instruções, não sendo necessário a inclusão de novos barramentos e/ou dispositivos intermediários entre o Nios II e o Processador Gráfico.
+
+### Arquitetura do Processador Gráfico
+
+É possível observar a representação da estrutura interna deste módulo na Fig. 4. Inicialmente, temos a Unidade de Controle, que consiste em uma Máquina de Estados responsável por gerenciar o processo de leitura, decodificação e execução das instruções recebidas. O Banco de Registradores armazena temporariamente as informações (coordenadas, offset de memória, e um bit de ativação) associadas a cada sprite. São 32 registradores no total, sendo o primeiro reservado para o armazenamento da cor de background da tela e os outros 31 reservados aos sprites. Com isso, o Processador Gráfico consegue administrar o uso de 31 sprites em um mesmo frame de tela. O Módulo de Desenho é responsável por gerenciar o processo de desenho dos pixels no monitor VGA. O Controlador VGA é responsável por gerar os sinais de sincronização v sync e h sync da VGA, além de fornecer as coordenadas x e y do processo de varredura do monitor.
+
+Considerando os tempos de sincronização vertical e horizontal, cada tela é impressa a cada 16,768 ms. Logo, temos uma taxa de aproximadamente 60 frames por segundo. A Memória de Sprites armazena o bitmap para cada sprite. Sua dimensão é ajustada conforme necessário para suportar os diferentes tamanhos de sprites usados no jogo.
+
+A estrutura interna deste módulo é representada na Fig. 4. A Memória de Sprites consiste em 12.800 palavras de 9 bits, com 3 bits para cada componente RGB. Cada sprite deve ter o tamanho de 20x20 pixels, ocupando assim 400 posições de memória. Dessa forma, é possível armazenar 32 diferentes sprites para uso em um jogo. A Memória de Background é utilizada para modificar pequenas partes do background e consiste em 4.800 palavras de 9 bits. A inicialização das memórias é realizada durante o processo de síntese do projeto no software Quartus.
+
+Na Figura 4, também encontra-se um Co-Processador, responsável por gerenciar a construção de polígonos convexos do tipo quadrado e triângulo. Esses polígonos serão renderizados na tela de um monitor VGA em conjunto com os sprites e o background.
+
+### Instruções do Processador Gráfico
+
+Nesta primeira versão do projeto, o Processador Gráfico possui as seguintes instruções:
+
+1. **Escrita no Banco de Registradores (WBR):** 
+   Essa instrução é responsável por configurar os registradores que armazenam as informações dos sprites e a cor base do background. Como essa cor base é armazenada no primeiro registrador do Banco, a instrução WBR segue a estrutura apresentada na Fig. 8. As posições com valor 0 representam posições não utilizadas. Para configurar um sprite, segue-se a estrutura apresentada na Fig. 9. O campo opcode define qual instrução será executada pelo Processador Gráfico. Para esta instrução, o valor é configurado em 0000. A escolha do sprite é feita através do campo offset, que indica a localização do sprite na memória. O campo registrador é utilizado para definir em qual registrador os parâmetros de impressão serão armazenados. A posição do sprite é definida através das coordenadas X e Y. O campo sp permite habilitar/desabilitar o desenho de um sprite na tela. Na Fig. 8, os campos R, G e B configuram as componentes RGB da cor base do background.
+
+   **Figura 8:** Uso das Instruções WBR para modificação da cor base do background.
+   
+   **Figura 9:** Uso das Instruções WBR para configurar um sprite.
+
+2. **Escrita na Memória de Sprites (WSM):** 
+   Essa instrução armazena ou modifica o conteúdo presente na Memória de Sprites (Fig. 10). O campo opcode é semelhante à instrução anterior, no entanto, seu valor é configurado em 0001. O campo endereço de memória especifica qual local da memória será alterado. Os campos R, G e B definem as novas componentes RGB para o local desejado.
+
+   **Figura 10:** Representação da Instrução WSM.
+
+3. **Escrita na Memória de Background (WBM):**
+   Essa instrução armazena ou modifica o conteúdo presente na Memória de Background. Sua função é configurar valores RGB para o preenchimento de áreas do background. Seus campos são semelhantes aos da instrução WSM (Fig. 10), com a única diferença no campo endereço de memória, que possui tamanho de 12 bits. O valor do opcode é configurado como 0010. O background é dividido em pequenos blocos de 8x8 pixels, e cada endereço de memória corresponde a um bloco. Com a resolução de 640x480 pixels, temos uma divisão de 80x60 blocos. Isso permite que o background seja configurado de diferentes formas de acordo com o preenchimento da memória (Fig. 11). Se um endereço for preenchido com o valor 0b111111110 = 510, o Módulo de Desenho entenderá que o bloco correspondente está desabilitado, assim ocupando os pixels da área com a cor base do background, um polígono ou sprite, caso suas coordenadas coincidam com o bloco.
+
+   **Figura 11:** Divisão da área do Background.
+
+4. **Definição de um Polígono (DP):**
+   Essa instrução é utilizada para modificar o conteúdo da Memória de Instrução do Co-Processador (Fig. 6), de forma a definir os dados referentes a um polígono que deve ser renderizado. O valor do opcode é configurado como 0011. O campo endereço é utilizado para a escolha da posição de memória em que a instrução será armazenada, possibilitando o controle da sobreposição dos polígonos. Os campos ref point X e ref point Y são usados para definir as coordenadas do ponto de referência do polígono. O campo tamanho define a dimensão do polígono. Caso seu valor seja configurado como 0b0000, o polígono que foi definido estará desabilitado. Por último, as componentes RGB definem a cor do polígono, e o bit de forma define se o polígono corresponde a um quadrado (0) ou triângulo (1). Logo abaixo, na Tabela II, temos as dimensões que atualmente são possíveis de utilização com o Co-Processador.
+
+### Protocolo de Comunicação entre o HPS e o Processador Gráfico
+
+Para enviar instruções ao Processador Gráfico, foi desenvolvido um protocolo de comunicação simples utilizando as FIFOs e o módulo Gerador de Pulso, conforme ilustrado na Fig. 3. Como os jogos serão desenvolvidos em linguagem C, é possível acessar as GPIOs (General-Purpose Input/Output) do sistema através da técnica de Mapeamento de Memória. Usando a ferramenta Platform Design do software Quartus Prime Lite, realiza-se a associação de endereços de memória às entradas e saídas do sistema. Dessa forma, obtém-se acesso a todos os sinais e barramentos conectados ao processador Nios II, conforme mostrado na Fig. 3.
+Controle de Acesso e Envio de Instruções
+
+O controle de acesso para escrita e leitura é realizado pelo controlador de barramento do Nios II. Com esses endereços e utilizando as Instruções Customizadas do Nios II, a distribuição dos campos das instruções do Processador Gráfico é realizada dentro dos barramentos dataA e dataB no momento do envio. Como existem instruções com mais de 32 bits, decidiu-se manter dois barramentos de 32 bits separados, permitindo linhas de transmissão suficientes para a implementação de novas instruções de até 64 bits. As Fig. 13, 14, 15 e 16 mostram a distribuição dos dados. O barramento dataA é utilizado para opcodes e endereçamento do Banco de Registrador e Memórias; o barramento dataB é utilizado para envio de dados a serem armazenados e/ou atualizados.
+
+Após a inserção da instrução nos barramentos dataA e dataB, deve-se colocar o sinal start em nível lógico alto. Isso ativará o Módulo Gerador de Pulso, que habilitará a escrita nas FIFOs durante um único pulso de clock, garantindo que as instruções sejam escritas somente uma vez, evitando instruções duplicadas e desperdício de espaço. Em seguida, o sinal start deve ser colocado novamente em nível lógico baixo para reiniciar o módulo Gerador de Pulso, aguardando a próxima mudança na sua entrada para gerar um novo pulso de escrita. Não é possível utilizar um pulso de escrita direto do Nios II, pois as Instruções Customizadas levam cerca de 6 pulsos de clock para refletir o novo valor na respectiva saída, o que resultaria em várias escritas nas FIFOs, causando redundâncias de instruções.
+
 ## Módulo de Kernel
 
 O processador de propósito geral acessa a FPGA usando as pontes HPS-to-FPGA ou Lightweight HPS-to-FPGA. Essas pontes são mapeadas para regiões no espaço de memória do HPS. A fim de realizar a conexão do Processador Gráfico na FPGA com o Processador no HPS de forma mais facilitada, sem a necessidade de realizar o mapeamento de memória a cada acesso ao GPU, foi desenvolvido um módulo de kernel. Um módulo de kernel é um código que pode ser carregado e descarregado no kernel do sistema operacional Linux sem precisar recompilar ou reiniciar o sistema. Ele atua como uma extensão do kernel, adicionando novas funcionalidades ou suporte a novos dispositivos de hardware.
@@ -150,10 +200,9 @@ Para iniciar foram definidas as bibliotecas a serem importadas para o funcioname
 
 Para estabelecer a comunicação entre a biblioteca e o módulo de Kernel, fazemos uso das instruções `write_data()`, `read_data` e `close_data`.
 
-A função `write_data()`, como o nome pressupõe, efetua a escrita 
+A função `write_data()`, como o nome pressupõe, efetua a escrita no arquivo utilizado para estabelecer a comunicação entre o modulo do kernel e os barramentos da GPU. As próximas instruções, `read_data()` e `close_data()`, reespectivamente, leem e encerram esse mesmo arquivo.
 
 <img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/write_data.jpg">
-
 
 <img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/read_data.jpg">
 
