@@ -198,6 +198,8 @@ Para iniciar foram definidas as bibliotecas a serem importadas para o funcioname
 
 ## Desenvolvimento da Biblioteca
 
+#### Comunicação entre a biblioteca e o módulo kernel
+
 Para estabelecer a comunicação entre a biblioteca e o módulo de Kernel, fazemos uso das instruções `write_data()`, `read_data` e `close_data`.
 
 A função `write_data()`, como o nome pressupõe, efetua a escrita no arquivo utilizado para estabelecer a comunicação entre o modulo do kernel e os barramentos da GPU. As próximas instruções, `read_data()` e `close_data()`, reespectivamente, leem e encerram esse mesmo arquivo.
@@ -207,6 +209,39 @@ A função `write_data()`, como o nome pressupõe, efetua a escrita no arquivo u
 <img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/read_data.jpg">
 
 <img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/close_data.jpg">
+
+Em caso de erro, o programa é finalizado e uma mensagem de erro é emitida no terminal de execução. A assinatura dessas instruções é dada por: 
+
+```C
+/**
+ * @brief Writes data to a hardware device.
+ *
+ * @param data The data to be written.
+ */
+void write_data(u64_t data);
+
+/**
+ * @brief Reads data from a hardware device.
+ *
+ * @return The read data.
+ */
+u64_t read_data();
+
+/**
+ * @brief Closes a data resource, such as a file.
+ *
+ */
+void close_data();
+```
+
+#### Algoritmo para implementação das funções da GPU
+
+
+
+#### Fluxograma de Exibição da Imagem no Monitor
+
+
+
 
 <img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/instruction.jpg">
 
