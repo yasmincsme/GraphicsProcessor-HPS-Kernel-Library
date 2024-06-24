@@ -72,9 +72,8 @@ u64_t read_data();
 /**
  * @brief Closes a data resource, such as a file.
  *
- * @return A code indicating the success or failure of the closing operation.
  */
-u8_t close_data();
+void close_data();
 
 /**
  * @brief Sets a ground block in the graphics processor.
