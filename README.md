@@ -25,7 +25,7 @@ Biblioteca para o processador gráfico projetado, destinada a ser usada com o HP
 
 ## Contextualização
 
-Este projeto foi desenvolvido para atender aos requisitos do _Problema 2 - Barramento_ do componente curricular TEC499 - Módulo Integrador de Sistemas Digitais. O objetivo principal é conceber um Módulo Kernel que possibilite a comunicação entre o processador de propósito geral da placa DE1-SoC e o processador gráfico embarcado na FPGA da mesma placa. Além disso, o projeto exige o desenvolvimento de uma biblioteca para facilitar o acesso geral aos recursos do sistema, garantindo uma integração eficiente e acessível entre os componentes de hardware e software.
+Este projeto foi desenvolvido para atender aos requisitos do _Problema 2 - Barramento_ do componente curricular TEC499 - Módulo Integrador de Sistemas Digitais. O objetivo principal é conceber um Módulo Kernel que possibilite a comunicação entre o processador de propósito geral da placa DE1-SoC e o processador gráfico embarcado na FPGA da mesma placa. Além disso, o projeto exige o desenvolvimento de uma biblioteca para facilitar o acesso geral aos recursos do sistema e o envio de instruções para a GPU, garantindo uma integração eficiente e acessível entre os componentes de hardware e software.
 
 ## Recursos Utilizados
 
@@ -42,62 +42,37 @@ Este projeto foi desenvolvido para atender aos requisitos do _Problema 2 - Barra
 #### Linguagens de Programação
 
 
-### Bibliotecas e Dependências
+### Dependências
 
-#### Bibliotecas C
+1. Instalação de Bibliotecas e Ferramentas para Desenvolvimento em C, como o CMake, ferramenta de build para projetos C/C++;
 
-* **Bibliotecas de Kernel do Linux**
+    ```bash
+    sudo apt-get install cmake
+    ```
 
-    * `asm/io.h:` Manipulação de operações de entrada/saída a nível de hardware;
+2. Instalação ou atualização do compilador _GCC_ para realizar a compilação dos arquivos do projeto. Utilize o primeiro comando para verificar a versão do compilador ou o segundo caso a instalação dele não tenha sido realizada ainda;
 
-    * `asm/uaccess.h:` Acesso a dados do espaço do usuário a partir do kernel;
+    ```bash
+    gcc --version
+    ```
 
-    * `linux/cdev.h:` Manipulação de dispositivos de caracteres;
+    ```bash
+    sudo apt-get install gcc
+    ```
 
-    * `linux/delay.h:` Funções para criar atrasos temporais no kernel;
+3. Instalação de pacotes essenciais para desenvolvimento e gerenciamento de módulos de kernel em sistemas operacionais baseados em Debian;
 
-    * `linux/device.h:` Manipulação de dispositivos no kernel;
+    ```bash
+    sudo apt-get install build-essential kmod
+    ```
 
-    * `linux/fs.h:` Interface para operações de sistemas de arquivos;
+4. Instalação e configuração do _git_ para facilitar a manipulação do projeto.
 
-    * `linux/init.h:` Macros de inicialização e finalização de módulos;
-
-    * `linux/kernel.h:` Definições e funções do kernel;
-
-    * `linux/module.h:` Macros e funções para criação de módulos de kernel.
-
-* **Bibliotecas Padrão do C**
-
-    * `fcntl.h:` Manipulação de descritores de arquivos.
-
-    * `float.h:` Constantes e funções para manipulação de números de ponto flutuante.
-
-    * `math.h:` Funções matemáticas.
-
-    * `stdint.h:` Definições de tipos inteiros com largura específica.
-
-    * `stdio.h:` Funções de entrada/saída padrão.
-
-    * `stdlib.h:` Funções utilitárias gerais, incluindo gerenciamento de memória, processos e conversões.
-
-    * `string.h:` Funções para manipulação de strings.
-
-    * `sys/mman.h:` Funções para mapeamento de memória.
-
-    * `sys/stat.h:` Estruturas e funções para obter informações sobre arquivos.
-
-    * `unistd.h:` Declarações de funções POSIX e constantes.
-
-* **Bibliotecas de Manipulação de Erros**
-
-    * `errno.h:` Macros para reporte de erros.
-
-
-
-
-#### Dependências do Sistema
-
-
+    ```bash
+    sudo apt-get install git
+    git config --global user.name "Seu Nome"
+    git config --global user.email "seu.email@example.com"
+    ```
 ## Desenvolvimento da Biblioteca
 
 Para estabelecer a comunicação entre a biblioteca e o módulo de Kernel, fazemos uso das instruções `write_data()`, `read_data` e `close_data`.
