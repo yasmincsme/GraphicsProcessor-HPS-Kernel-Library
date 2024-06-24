@@ -229,7 +229,7 @@ ssh aluno@10.0.0.124
 Em seguida, transfira a pasta clonada do seu computador para o sistema de arquivos da placa:
 
 ```bash
-mv GraphicsProcessor-HPS-Kernel-Library/ [caminho do destino]
+mv GraphicsProcessor-HPS-Kernel-Library/[caminho do destino]
 ```
 
 Para compilar e carregar o módulo do kernel desenvolvido, navegue até o diretório `src` do repositório e execute os seguintes comandos:
