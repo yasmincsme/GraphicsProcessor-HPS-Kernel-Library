@@ -73,6 +73,11 @@ Este projeto foi desenvolvido para atender aos requisitos do _Problema 2 - Barra
     git config --global user.name "Seu Nome"
     git config --global user.email "seu.email@example.com"
     ```
+
+##Módulo de Kernel
+
+A fim de realizar a conexão do Processador Gráfico na FPGA com o Processador no HPS de forma mais facilitada, sem a necessidade de realizar o mapeamento de memória a cada acesso ao GPU, foi desenvolvido um módulo de kernel. Um módulo de kernel é um componente carregável do sistema operacional Linux que estende as funcionalidades do kernel em tempo de execução. Esses módulos permitem adicionar ou remover funcionalidades, como suporte a novos dispositivos de hardware, sem a necessidade de recompilar ou reiniciar o kernel. 
+
 ## Desenvolvimento da Biblioteca
 
 Para estabelecer a comunicação entre a biblioteca e o módulo de Kernel, fazemos uso das instruções `write_data()`, `read_data` e `close_data`.
