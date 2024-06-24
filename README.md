@@ -31,29 +31,52 @@ Este projeto foi desenvolvido para atender aos requisitos do _Problema 2 - Barra
 
 ### Hardware
 
+#### Placa DE1-SoC
 
+A DE1-SoC é uma plataforma de desenvolvimento poderosa que combina um processador ARM de propósito geral com uma FPGA (Field-Programmable Gate Array) da Intel. Esta combinação permite o desenvolvimento e teste de sistemas embarcados complexos que requerem tanto processamento flexível quanto funcionalidades de hardware personalizáveis. Segue abaixo uma lista com os principais componentes da placa:
+
+* Processador ARM Cortex-A9:
+    * Dual-core ARM Cortex-A9.
+    * Integrado no SoC (System on Chip) Cyclone V da Intel.
+    * Executa um sistema operacional como Linux, possibilitando o desenvolvimento de software de alto nível.
+
+* FPGA Cyclone V:
+    * FPGA de alto desempenho que pode ser programada para implementar diversas funcionalidades de hardware.
+    * Permite a criação de controladores personalizados, interfaces de comunicação, processadores gráficos embarcados, e outros módulos de hardware especializados.
+
+* Memória:
+    * 1 GB de memória DDR3 SDRAM para o processador ARM.
+    * 64 MB de memória SDRAM para a FPGA.
+    * Memória flash de 2 GB (para armazenamento de sistemas operacionais, bootloaders, e outros arquivos).
+
+* Interfaces de Entrada/Saída:
+    * Ethernet 10/100/1000.
+    * USB 2.0 (Host e Device).
+    * HDMI (saída de vídeo).
+    * VGA (saída de vídeo).
+    * Áudio (entrada e saída).
+    * GPIO (General Purpose Input/Output).
+    * Conectores de expansão para adicionar módulos periféricos.
+
+* Periféricos:
+    * Conversores A/D e D/A.
+    * Interface de cartão SD.
+    * LEDs, botões, e switches para interações básicas.
+
+#### Monitor CRT (Cathode Ray Tube)
+
+Os monitores CRT (Cathode Ray Tube) foram a tecnologia predominante para telas de computador e televisores durante grande parte do século XX. Embora agora tenham sido amplamente substituídos por tecnologias mais modernas como LCD, LED, e OLED, os CRTs desempenharam um papel crucial no desenvolvimento da eletrônica de exibição e foram utilizados durante o desenvolvimento de todo o projeto para a realização de testes.
 
 ### Software e Ferramentas
 
-**Sistema Operacional**: 
-
-- **Ubuntu 22.04**:
-  - Interface gráfica GNOME;
-  - Repositórios robustos e atualizações de segurança regulares;
-  - Ambiente estável e otimizado para diversas plataformas de hardware.
-
-- **Linux Mint Cinnamon**:
-  - Baseado no Ubuntu, com suporte a longo prazo;
-  - Conjunto completo de aplicativos e drivers pré-instalados.
-
-**Compilador**: 
+#### Compilador: 
 
 - **GNU Compiler Collection (GCC)**:
   - Compilador robusto e altamente compatível com padrões de linguagem;
   - Suporte a várias linguagens, incluindo C, C++, Fortran, e mais;
   - Otimizações de código para melhorar o desempenho do software.
-  
-**Ferramentas de Desenvolvimento**:
+
+#### Ferramentas de Desenvolvimento:
 
 - **Visual Studio Code**:
   - Editor de código-fonte leve com suporte a extensões;
@@ -65,14 +88,13 @@ Este projeto foi desenvolvido para atender aos requisitos do _Problema 2 - Barra
   - GitHub como plataforma de hospedagem de repositórios Git na nuvem;
   - Facilita colaboração, revisão de código e integração contínua/desenvolvimento contínuo.
 
-**Linguagem de Programação**: 
+#### Linguagem de Programação: 
 
 - **C**:
   - Linguagem de programação de propósito geral com foco em eficiência e controle;
   - Altamente portável e adequada para desenvolvimento de sistemas e aplicações de baixo nível;
   - Base para muitas outras linguagens e bibliotecas importantes;
   - Suporte extenso da comunidade e ampla aplicação em sistemas operacionais, drivers e aplicativos críticos.
-
 
 ### Dependências
 
