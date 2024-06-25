@@ -223,19 +223,26 @@ As funções copy_from_user e copy_to_user são funções do espaço do kernel u
 
 ## Desenvolvimento da Biblioteca
 
-#### Comunicação entre a biblioteca e o módulo kernel
+### Comunicação entre a Biblioteca e o Módulo Kernel
 
-Para estabelecer a comunicação entre a biblioteca e o módulo de Kernel, fazemos uso das instruções `write_data()`, `read_data` e `close_data`.
+Para estabelecer a comunicação entre a biblioteca e o módulo de kernel, utilizamos as funções `write_data()`, `read_data()` e `close_data()`.
 
-A função `write_data()`, como o nome pressupõe, efetua a escrita no arquivo utilizado para estabelecer a comunicação entre o modulo do kernel e os barramentos da GPU. As próximas instruções, `read_data()` e `close_data()`, reespectivamente, leem e encerram esse mesmo arquivo.
+1. **`write_data()`**: Esta função realiza a escrita de dados no arquivo que serve como canal de comunicação entre o módulo de kernel e os barramentos da GPU.
+2. **`read_data()`**: Esta função lê os dados do arquivo mencionado.
+3. **`close_data()`**: Esta função encerra o arquivo de comunicação.
 
-<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/write_data.jpg">
+#### Fluxogramas das Funções
 
-<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/read_data.jpg">
+- **Fluxograma para `write_data()`**:
+    <img width="" src="docs/write_data.jpg">
 
-<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/close_data.jpg">
+- **Fluxograma para `read_data()`**:
+    <img width="" src="docs/read_data.jpg">
 
-Em caso de erro, o programa é finalizado e uma mensagem de erro é emitida no terminal de execução. As assinaturas dessas instruções são dadas por: 
+- **Fluxograma para `close_data()`**:
+    <img width="" src="docs/close_data.jpg">
+
+Caso ocorra algum erro, o programa é finalizado e uma mensagem de erro é exibida no terminal. As assinaturas dessas funções são:
 
 ```C
 /**
@@ -254,32 +261,33 @@ u64_t read_data();
 
 /**
  * @brief Closes a data resource, such as a file.
- *
  */
 void close_data();
 ```
 
-#### Algoritmo para implementação das funções da GPU
+### Algoritmo para Implementação das Funções da GPU
 
-O algoritmo para implementação das funções da GPU consiste basicamente na divisão dos dados selecionados pelo usuário entre os barramentos data A e data B. Para isso, desenvolvemos o seguinte algoritmo:
+O algoritmo para implementar as funções da GPU envolve a divisão dos dados selecionados pelo usuário entre os barramentos data A e data B. O fluxo geral do algoritmo é ilustrado na figura abaixo:
 
-<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/instruction.jpg">
+<img width="" src="docs/instruction.jpg">
 
-Para entendê-lo, vamos utilizar a função mais simples da GPU: a troca da cor do background. Se executarmos a função `set_background_color(2, 3, 3)`, inicialmente iremos fazer a inicialização das variáveis constantes (nesta caso em específico `opcode` e `reg`). Observe que as variáveis R, G e B são inicializadas com o valor estabelecido pelos parâmetros enviados através da função e `reg` e `opcode` são zerados. Além disso, `dataA` e `dataB` também encontram-se zerados por nenhum valor ter sido atribuído a eles.
+Vamos explicar o algoritmo utilizando a função de troca de cor do background, `set_background_color(2, 3, 3)`, como exemplo.
 
-<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/15.jpg">
+1. **Inicialização de Variáveis**: As variáveis constantes, como `opcode` e `reg`, são inicializadas. Os valores de R, G e B são configurados conforme os parâmetros da função, enquanto `reg` e `opcode` são zerados. As variáveis `dataA` e `dataB` também são inicializadas com zero.
 
-No segundo passo, dividimos as informações entre dataA e dataB de acordo com o protocolo de comunicação HPS-FPGA, isto é, adicionamos aos barramentos as informações que devem ser enviadas às filas. No exemplo abaixo, deslocamos `reg` em 4 bits e `G` e `B`, respectivamente, em 3 e 6 bits, isso porque no barramento A a indicação do registrador vem antes do opcode e no barramento B a representação dos valores está na ordem B -> G -> R.
+    <img width="" src="docs/15.jpg">
 
-<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/16.jpg">
+2. **Divisão das Informações entre dataA e dataB**: As informações são distribuídas entre dataA e dataB de acordo com o protocolo de comunicação HPS-FPGA. Por exemplo, `reg` é deslocado em 4 bits, e `G` e `B` em 3 e 6 bits, respectivamente, porque no barramento A, o registrador é indicado antes do opcode, e no barramento B, os valores são organizados na ordem B -> G -> R.
 
-Nos passos 3 e 4, o que fazemos é inicializar e atribuir a um buffer de caractere os valores inteiros de dataA e dataB convertidos em string hexadecimal. Ou seja, os valores nessas duas variáveis é convertido para hexadecimal, completado com zeros e então concatenado no buffer declarado no passo 3.
+    <img width="" src="docs/16.jpg">
 
-<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/17.jpg">
+3. **Conversão para String Hexadecimal**: Inicializamos um buffer de caracteres e convertemos os valores inteiros de `dataA` e `dataB` para strings hexadecimais, completando com zeros e concatenando no buffer.
 
-No passo seguinte, convertemos a string para um valor inteiro na base desejada para que enfim possamos escrever essa isntrução no arquivo inicializado através da função `write_data()` e fechá-lo com `close_data()`, por fim, a função retorna a instrução como valor inteiro e finaliza a sua execução caso não haja nenhuma intercorrência durante a manipulação do arquivo.
+    <img width="" src="docs/17.jpg">
 
-<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/18.jpg">
+4. **Conversão para Inteiro e Escrita no Arquivo**: A string hexadecimal é convertida para um valor inteiro na base desejada, que é então escrito no arquivo usando `write_data()`. Após isso, o arquivo é fechado com `close_data()`. A função retorna a instrução como valor inteiro e encerra sua execução, desde que não haja erros durante a manipulação do arquivo.
+
+    <img width="" src="docs/18.jpg">
 
 ### Fluxograma de Exibição da Imagem no Monitor
 
