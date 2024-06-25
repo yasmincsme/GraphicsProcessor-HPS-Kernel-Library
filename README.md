@@ -170,7 +170,7 @@ No Linux, existe uma grande diferença entre o espaço do Kernel e o espaço do 
 
 Para conectar esses dois espaços, é possível gerar um arquivo (exclusivo para o hardware a ser acessado) que pode ser lido e/ou escrito, através de um driver de carácter, como mostrado no esquema da figura a seguir:
 
-<img width="" src="docs/Espaço de Usuário.png">
+<img width="" src="docs/espaco_de_usuario.png">
 
 O objetivo principal do módulo de kernel desenvolvido é fornecer uma interface eficiente para escrita e leitura em dois barramentos, DATA A e DATA B, que conectam o processador HPS da placa DE1-SoC ao processador gráfico, facilitando a comunicação e melhorando o desempenho do sistema.
 
@@ -328,7 +328,7 @@ u64_t set_polygon(polygon_t polygon);
 A exibição final da imagem no monitor, utilizando todos os elementos disponíveis pela GPU (polígonos, sprites, background e background blocks), foi realizada segundo o fluxograma a seguir. Pode-se dividir o envio de instruções para exibição da imagem em 5 partes. A primeira, como a definição do "céu" e da "grama", utilizando a cor azul no fundo e blocos verdes para a grama. A segunda parte, as "árvores" representadas pelas sprites. A terceira, a montagem da "base do castelo" utilizando os polígonos rosas. Já a quarta, com os "telhados" e "porta" do castelo, utilizando polígonos marrom. E, a última etapa, o "sol" amarelo, com um polígono, e as "nuvens" brancas com blocos de background. 
 
 <div align="center">
-   <img width="500" src="docs/final-visualization.png">
+   <img width="500" src="docs/final_visualization.png">
 </div>
 
 ## Configurações de Ambiente e Execução
