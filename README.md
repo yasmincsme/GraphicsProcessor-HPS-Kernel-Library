@@ -246,8 +246,24 @@ O driver de caracter é uma parte fundamental do módulo de kernel quando se tra
   
 - Função de Leitura: A função de leitura tem como objetivo coletar os dados dos barramentos de saída do hardware e enviá-los para o espaço do usuário. Para isso, os dados são lidos de dois registradores diferentes e combinados em uma única instrução de 64 bits. Primeiramente, são lidos os 32 bits do primeiro registrador e armazenados na metade inferior da instrução. Em seguida, são lidos os 32 bits do segundo registrador e armazenados na metade superior da instrução. A instrução combinada é então copiada para o buffer de saída do usuário.  Exemplo do código a baixo:
 
-  
+  ```c
+      uint32_t data_a;
+      uint32_t data_b;
+      uint64_t data;
+    
+      data_a = ioread32(data_a_mem);
+      data_b = ioread32(data_b_mem);
+    
+      data = ((uint64_t)data_b << 32) | data_a;
+    
+      if (copy_to_user(buffer, &data, sizeof(data))) {
+        return -EFAULT;
+      }
+    
+      return sizeof(data);
 
+    ```
+As funções copy_from_user e copy_to_user são funções do espaço do kernel utilizadas para realizar a escrita e leitura no hardware.
 
 ## Desenvolvimento da Biblioteca
 
