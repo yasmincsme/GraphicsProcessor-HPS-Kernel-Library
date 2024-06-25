@@ -213,10 +213,10 @@ O driver de caracter é uma parte fundamental do módulo de kernel quando se tra
 - Estrutura e Funcionamento do Driver de Caracter:
     - Registro do Driver: O driver de caracter é registrado no sistema com uma identificação única (major number) que permite ao sistema operacional diferenciar entre diversos drivers de caracter.
     - Funções Principais: O driver deve implementar funções essenciais, como open, release, read e write.
-          - Open: Função chamada quando um processo tenta abrir o dispositivo. Pode ser usada para inicializar variáveis ou recursos necessários.
-          - Release: Função chamada quando um processo fecha o dispositivo. Usada para liberar recursos alocados.
-          - Read: Função chamada para ler dados do dispositivo. Implementa a lógica de leitura de dados do hardware para o espaço de usuário.
-          - Write: Função chamada para escrever dados no dispositivo. Implementa a lógica de escrita de dados do espaço de usuário para o hardware.
+        - Open: Função chamada quando um processo tenta abrir o dispositivo. Pode ser usada para inicializar variáveis ou recursos necessários.
+        - Release: Função chamada quando um processo fecha o dispositivo. Usada para liberar recursos alocados.
+        - Read: Função chamada para ler dados do dispositivo. Implementa a lógica de leitura de dados do hardware para o espaço de usuário.
+        - Write: Função chamada para escrever dados no dispositivo. Implementa a lógica de escrita de dados do espaço de usuário para o hardware.
     - Interface com o Hardware: O driver de caracter comunica-se diretamente com o hardware, utilizando registradores de memória mapeados ou portas de E/S, para realizar operações de leitura e escrita.
     - Criação de Arquivo de Dispositivo: Um arquivo especial de dispositivo é criado no diretório /dev, que permite aos usuários e programas acessar o driver de caracter através de operações de arquivo padrão (open, read, write, close).
 
