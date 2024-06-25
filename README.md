@@ -222,11 +222,32 @@ O driver de caracter é uma parte fundamental do módulo de kernel quando se tra
 
 4. Implementação das Funções de Leitura e Escrita
 
-- Função de Escrita: A instrução que será enviada para os barramentos Data A e Data B é recebida pelo módulo como uma instrução inteira de 64 bits. Logo, é necessário separá-la  para escrever seperadamente em cada barramento. Para realizar essa divisão, os primeiros 32 bits da instrução recebida são colocadas na variável do Data A, e os outros são deslocados para 
+- Função de Escrita: A instrução que será enviada para os barramentos Data A e Data B é recebida pelo módulo como uma instrução inteira de 64 bits. Logo, é necessário separá-la para escrever separadamente em cada barramento. Para realizar essa divisão, os primeiros 32 bits da instrução recebida são colocados na variável do Data A, e os outros 32 bits são deslocados para a variável do Data B. Isso é feito utilizando operações de máscara e deslocamento de bits, de forma que cada parte da instrução seja corretamente atribuída ao seu respectivo barramento. Exemplo do código a baixo:
+
+  ```c
+      uint64_t data;
+      uint32_t data_a;
+      uint32_t data_b;
+
+
+      if (copy_from_user(&data, buffer, sizeof(data))) {
+        return -EFAULT;
+      }
+
+      data_a = (uint32_t)(data & 0xFFFFFFFF);
+      data_b = (uint32_t)(data >> 32);
+    
+      iowrite32(data_a, data_a_mem);
+      iowrite32(data_b, data_b_mem);
+    
+      return sizeof(data);
+}
+
+```
   
-- Função de Leitura:
+- Função de Leitura: A função de leitura tem como objetivo coletar os dados dos barramentos de saída do hardware e enviá-los para o espaço do usuário. Para isso, os dados são lidos de dois registradores diferentes e combinados em uma única instrução de 64 bits. Primeiramente, são lidos os 32 bits do primeiro registrador e armazenados na metade inferior da instrução. Em seguida, são lidos os 32 bits do segundo registrador e armazenados na metade superior da instrução. A instrução combinada é então copiada para o buffer de saída do usuário.  Exemplo do código a baixo:
 
-
+  
 
 
 ## Desenvolvimento da Biblioteca
