@@ -208,6 +208,25 @@ O módulo de kernel foi estruturado em um arquivo principal (data_bus.c), conten
 
 3. Drive de Caracteres
 
+O driver de caracter é uma parte fundamental do módulo de kernel quando se trata de comunicação com dispositivos de hardware. Ele fornece uma interface para leitura e escrita de dados entre o software e o hardware. No contexto do módulo de kernel desenvolvido, o driver de caracter desempenha um papel crucial.
+
+- Estrutura e Funcionamento do Driver de Caracter:
+    - Registro do Driver: O driver de caracter é registrado no sistema com uma identificação única (major number) que permite ao sistema operacional diferenciar entre diversos drivers de caracter.
+    - Funções Principais: O driver deve implementar funções essenciais, como open, release, read e write.
+        Open: Função chamada quando um processo tenta abrir o dispositivo. Pode ser usada para inicializar variáveis ou recursos necessários.
+        Release: Função chamada quando um processo fecha o dispositivo. Usada para liberar recursos alocados.
+        Read: Função chamada para ler dados do dispositivo. Implementa a lógica de leitura de dados do hardware para o espaço de usuário.
+        Write: Função chamada para escrever dados no dispositivo. Implementa a lógica de escrita de dados do espaço de usuário para o hardware.
+    - Interface com o Hardware: O driver de caracter comunica-se diretamente com o hardware, utilizando registradores de memória mapeados ou portas de E/S, para realizar operações de leitura e escrita.
+    - Criação de Arquivo de Dispositivo: Um arquivo especial de dispositivo é criado no diretório /dev, que permite aos usuários e programas acessar o driver de caracter através de operações de arquivo padrão (open, read, write, close).
+
+4. Implementação das Funções de Leitura e Escrita
+
+- Função de Escrita: A instrução que será enviada para os barramentos Data A e Data B é recebida pelo módulo como uma instrução inteira de 64 bits. Logo, é necessário separá-la  para escrever seperadamente em cada barramento. Para realizar essa divisão, os primeiros 32 bits da instrução recebida são colocadas na variável do Data A, e os outros são deslocados para 
+  
+- Função de Leitura:
+
+
 
 
 ## Desenvolvimento da Biblioteca
