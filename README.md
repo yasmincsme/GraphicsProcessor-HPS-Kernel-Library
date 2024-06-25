@@ -202,7 +202,7 @@ O driver de caracter é uma parte fundamental do módulo de kernel quando se tra
     - Interface com o Hardware: O driver de caracter comunica-se diretamente com o hardware, utilizando registradores de memória mapeados ou portas de E/S, para realizar operações de leitura e escrita.
     - Criação de Arquivo de Dispositivo: Um arquivo especial de dispositivo é criado no diretório /dev, que permite aos usuários e programas acessar o driver de caracter através de operações de arquivo padrão (open, read, write, close).
 
-4. Implementação das Funções de Leitura e Escrita
+**4. Implementação das Funções de Leitura e Escrita**
 
 - Função de Escrita: A instrução que será enviada para os barramentos Data A e Data B é recebida pelo módulo como uma instrução inteira de 64 bits. Logo, é necessário separá-la para escrever separadamente em cada barramento. Para realizar essa divisão, os primeiros 32 bits da instrução recebida são colocados na variável do Data A, e os outros 32 bits são deslocados para a variável do Data B. Isso é feito utilizando operações de máscara e deslocamento de bits, de forma que cada parte da instrução seja corretamente atribuída ao seu respectivo barramento. Exemplo do código a baixo:
 
