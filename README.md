@@ -19,7 +19,6 @@ Biblioteca para o processador gráfico projetado, destinada a ser usada com o HP
     - [Algoritmo para implementação das funções da GPU](Algoritmo-para-implementacao-das-funcoes-da-gpu)
     - [Fluxograma de Exibição da Imagem no Monitor](fluxograma-para-exibicao-da-imagem-no-monitor)
 - [Configurações de ambiente e execução](#configuracoes-de-ambiente-e-execucao)
-- [Referências](#referências)
 
 ## Contextualização
 
