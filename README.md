@@ -333,7 +333,7 @@ A exibição final da imagem no monitor, utilizando todos os elementos disponív
 
 O resultado da imagem exibida no monitor foi o seguinte:
 <div align="center">
-   <img width="300" src="docs/monitor2.jpg">
+   <img width="500" src="docs/monitor2.jpg">
 </div>
 
 ## Configurações de Ambiente e Execução
