@@ -195,10 +195,20 @@ O objetivo principal do módulo de kernel desenvolvido é fornecer uma interface
 Para o devido funcionamento do módulo de kernel, alguns passos foram seguidos em seu desenvolvimento.
 
 1. Definição da Interface:
+
 Para iniciar foram definidas as bibliotecas a serem importadas para o funcionamento completo do código. Algumas bibilotecas da linguagem C não podem ser utilizadas em códigos do espaço do kernel, então nesses casos, foram substituídas por bibliotecas válidas, como a asm/uaccess.h para acesso a memória e linux/delay.h para a função de sleep. Após a importação das bibliotecas, foram realizadas as definições para os comandos de controle de E/S (ioctl) que serão utilizados para ler e escrever nos barramentos DATA_A e DATA_B. Cada barramento pode receber até 32 bits de dados, totalizando 64 bits para ambos os barramentos. Foram também definidos os locais de memória dos registradores WRREG e WRFULL, utilizados para dar start no envio de uma instrução e verificar se o buffer de instruções está cheio, respectivamente. 
 
-2. Drive de Caracteres
-3. 
+2. Estrutura do Módulo
+
+O módulo de kernel foi estruturado em um arquivo principal (data_bus.c), contendo funções de inicialização, finalização, e operações de leitura e escrita. As principais funções do módulo incluem:
+
+- Inicialização e Finalização: A funções (databus_init e databus_exit) são responsáveis por registrar e liberar o dispositivo de caractere associado ao driver.
+- Operações de Controle de E/S (ioctl): As funçãos dev_ioctl lida com os comandos ioctl para leitura e escrita nos barramentos DATA_A e DATA_B.
+- Operações de Controle do Arquivo: funções padrão do driver de caractere (read, write, open, release).
+
+3. Drive de Caracteres
+
+
 
 ## Desenvolvimento da Biblioteca
 
