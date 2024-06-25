@@ -289,6 +289,40 @@ Vamos explicar o algoritmo utilizando a função de troca de cor do background, 
 
     <img width="" src="docs/18.jpg">
 
+A assinatura das funções é apresentada a seguir. Note que, para as demais instruções, o único parâmetro passado é uma struct que deve ser previamente inicializada. Isso ocorre porque, de uma implementação para outra, a única alteração feita é a maneira como os parâmetros são acessados e como o deslocamento é realizado.
+
+```C
+/**
+ * @brief Sets a ground block in the graphics processor.
+ *
+ */
+u64_t set_background_block(ground_block_t block);
+
+/**
+ * @brief Sets a fixed sprite in the graphics processor.
+ *
+ */
+u64_t set_fixed_sprite(sprite_fixed_t sprite);
+
+/**
+ * @brief Sets a dynamic sprite in the graphics processor.
+ *
+ */
+u64_t set_dynamic_sprite(sprite_t sprite);
+
+/**
+ * @brief Sets the background color in the graphics processor.
+ *
+ */
+u64_t set_background_color(u32_t R, u32_t G, u32_t B);
+
+/**
+ * @brief Sets a polygon in the graphics processor.
+ *
+ */
+u64_t set_polygon(polygon_t polygon);
+```
+
 ### Fluxograma de Exibição da Imagem no Monitor
 
 A exibição final da imagem no monitor, utilizando todos os elementos disponíveis pela GPU (polígonos, sprites, background e background blocks), foi realizada segundo o fluxograma a seguir. Pode-se dividir o envio de instruções para exibição da imagem em 5 partes. A primeira, como a definição do "céu" e da "grama", utilizando a cor azul no fundo e blocos verdes para a grama. A segunda parte, as "árvores" representadas pelas sprites. A terceira, a montagem da "base do castelo" utilizando os polígonos rosas. Já a quarta, com os "telhados" e "porta" do castelo, utilizando polígonos marrom. E, a última etapa, o "sol" amarelo, com um polígono, e as "nuvens" brancas com blocos de background. 
