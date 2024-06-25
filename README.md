@@ -34,6 +34,8 @@ Este projeto foi desenvolvido para atender aos requisitos do _Problema 2 - Barra
 
 A DE1-SoC é uma plataforma de desenvolvimento poderosa que combina um processador ARM de propósito geral com uma FPGA (Field-Programmable Gate Array) da Intel. Esta combinação permite o desenvolvimento e teste de sistemas embarcados complexos que requerem tanto processamento flexível quanto funcionalidades de hardware personalizáveis. Segue abaixo uma lista com os principais componentes da placa:
 
+<img width="" src="docs/placa.jpg">
+
 * Processador ARM Cortex-A9:
     * Dual-core ARM Cortex-A9.
     * Integrado no SoC (System on Chip) Cyclone V da Intel.
