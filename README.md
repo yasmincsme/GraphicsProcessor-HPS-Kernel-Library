@@ -137,6 +137,8 @@ Para comunicar o HPS e o Processador Gráfico, que operam em frequências difere
 
 Cada FIFO pode armazenar 16 palavras de 32 bits. O sinal wrfull indica quando a FIFO está cheia, ativando um circuito de proteção contra overflow. As FIFOs permitem a adição de novas instruções sem a necessidade de novos barramentos ou dispositivos intermediários entre o HPS e o Processador Gráfico.
 
+<img width="" src="docs/diagrama.jpg">
+
 ### Instruções do Processador Gráfico
 
 1. **Escrita no Banco de Registradores (WBR)**:
