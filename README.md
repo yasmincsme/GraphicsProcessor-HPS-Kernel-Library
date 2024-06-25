@@ -13,7 +13,7 @@ Biblioteca para o processador gráfico projetado, destinada a ser usada com o HP
 - [Modelagem e Organização da Arquitetura](modelagem-e-organizacao-da-arquitetura)
     - [Instruções do Processador Gráfico](instrucoes-do-processador-grafico)
     - [Protocolo de Comunicação entre o HPS e o Processador Gráfico](protocolo-de-comunicacao-entre-o-hps-e-o-processador-grafico)
-
+- [Módulo Kernel](modulo_kernel)
 - [Desenvolvimento da Biblioteca](desenvolvimento-da-biblioteca)
     - [Comunicação entre a biblioteca e o módulo kernel](comunicacao-entre-a-biblioteca-e-o-modulo-kernel)
     - [Algoritmo para implementação das funções da GPU](Algoritmo-para-implementacao-das-funcoes-da-gpu)
