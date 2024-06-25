@@ -8,34 +8,35 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 
-#define DEVICE_NAME "gpp_data_bus"    /**< Name of the device */
-#define CLASS_NAME "gppdatabus_class" /**< Name of the device class */
+#define DEVICE_NAME "gpp_data_bus"
+#define CLASS_NAME "gppdatabus_class"
 
-/*Defining memory base addresses*/
-#define LW_VIRTUAL 0xFF200000 /**< Base address of virtual memory */
-#define DATA_A_OFFSET 0x70    /**< Offset for Data A */
-#define DATA_B_OFFSET 0x80    /**< Offset for Data B */
-#define WRREG_OFFSET 0xc0     /**< Offset for Write Register */
-#define WRFULL_OFFSET 0xb0    /**< Offset for Write Full */
+/*Defining memory base addreses*/
+#define LW_VIRTUAL 0xFF200000
+#define DATA_A_OFFSET 0x70
+#define DATA_B_OFFSET 0x80
+#define WRREG_OFFSET 0xc0
+#define WRFULL_OFFSET 0xb0
+#define DATA_A_PHYS_ADDR (LW_VIRTUAL + DATA_A_OFFSET)
+#define DATA_B_PHYS_ADDR (LW_VIRTUAL + DATA_B_OFFSET)
+#define WREG_PHYS_ADDR (LW_VIRTUAL + WRREG_OFFSET)
+#define WRFULL_PHYS_ADDR (LW_VIRTUAL + WRFULL_OFFSET)
 
-#define DATA_A_PHYS_ADDR (LW_VIRTUAL + DATA_A_OFFSET) /**< Physical address of Data A */
-#define DATA_B_PHYS_ADDR (LW_VIRTUAL + DATA_B_OFFSET) /**< Physical address of Data B */
-#define WREG_PHYS_ADDR (LW_VIRTUAL + WRREG_OFFSET)    /**< Physical address of Write Register */
-#define WRFULL_PHYS_ADDR (LW_VIRTUAL + WRFULL_OFFSET) /**< Physical address of Write Full */
+// AONDE FICA O BRIDGE_SPAN?? E USA ESSA JOÇA?
 
-#define SUCCESS 0 /**< Success return value */
+#define SUCCESS 0
 
-    /* Global variables and structs for the functions of the module */
-    static int majorNumber;                 /**< Major number of the device */
-static struct class *dataBusClass = NULL;   /**< Device class struct */
-static struct device *dataBusDevice = NULL; /**< Device struct */
+/*Global variables and structs for the functions of the module*/
+static int majorNumber;
+static struct class *dataBusClass = NULL;
+static struct device *dataBusDevice = NULL;
 
-void __iomem *data_a_mem; /**< Memory mapped pointer for Data A */
-void __iomem *data_b_mem; /**< Memory mapped pointer for Data B */
-void __iomem *wreg_mem;   /**< Memory mapped pointer for Write Register */
-void __iomem *wrfull_mem; /**< Memory mapped pointer for Write Full */
+void __iomem *data_a_mem;
+void __iomem *data_b_mem;
+void __iomem *wreg_mem;
+void __iomem *wrfull_mem;
 
-/* Declaring default functions and the file operations */
+/*Declaring default functions and the file operations*/
 static ssize_t data_bus_read(struct file *, char *, size_t, loff_t *);
 static ssize_t data_bus_write(struct file *, const char *, size_t, loff_t *);
 static int data_bus_open(struct inode *, struct file *);
@@ -47,13 +48,6 @@ static struct file_operations fops = {.owner = THIS_MODULE,
                                       .open = data_bus_open,
                                       .release = data_bus_release};
 
-/**
- * @brief Initializes the DataBus module.
- *
- * This function registers the character device, creates a device class, and initializes memory mapping.
- *
- * @return 0 on success, negative errno on failure.
- */
 static int __init data_bus_init(void) {
   printk(KERN_INFO "DataBus: Initializing the DataBus\n");
 
@@ -81,7 +75,7 @@ static int __init data_bus_init(void) {
   }
   printk(KERN_INFO "DataBus: device class created correctly\n");
 
-  /* Mapping memory address for Data A, Data B, Write Register, and Write Full */
+  /*Mapping memory address for Data A and Data B*/
   data_a_mem = ioremap(DATA_A_PHYS_ADDR, sizeof(uint32_t));
   if (!data_a_mem) {
     printk(KERN_ALERT "Failed to map memory for DATA_A\n");
@@ -125,11 +119,6 @@ static int __init data_bus_init(void) {
   return 0;
 }
 
-/**
- * @brief Cleans up resources used by the DataBus module.
- *
- * This function unmaps memory and destroys the device and device class.
- */
 static void __exit data_bus_exit(void) {
   iounmap(data_a_mem);
   iounmap(data_b_mem);
@@ -141,17 +130,6 @@ static void __exit data_bus_exit(void) {
   printk(KERN_INFO "DataBus Finalized!\n");
 }
 
-/**
- * @brief Reads data from the device.
- *
- * Reads data from Data A and Data B registers, combines them, and copies to user space.
- *
- * @param filep Pointer to the file structure.
- * @param buffer User space buffer to store data.
- * @param len Length of the buffer.
- * @param offset Offset in the file.
- * @return Number of bytes read on success, negative errno on failure.
- */
 static ssize_t data_bus_read(struct file *filep, char *buffer, size_t len, loff_t *offset) {
   uint32_t data_a;
   uint32_t data_b;
@@ -169,17 +147,6 @@ static ssize_t data_bus_read(struct file *filep, char *buffer, size_t len, loff_
   return sizeof(data);
 }
 
-/**
- * @brief Writes data to the device.
- *
- * Writes data to Data A and Data B registers from user space buffer.
- *
- * @param filep Pointer to the file structure.
- * @param buffer User space buffer containing data to write.
- * @param len Length of the buffer.
- * @param offset Offset in the file.
- * @return Number of bytes written on success, negative errno on failure.
- */
 static ssize_t data_bus_write(struct file *filep, const char *buffer, size_t len, loff_t *offset) {
   uint64_t data;
   uint32_t data_a;
@@ -215,30 +182,18 @@ static ssize_t data_bus_write(struct file *filep, const char *buffer, size_t len
   return sizeof(data);
 }
 
-/**
- * @brief Opens the device file.
- *
- * Logs when the device file is opened.
- *
- * @param inode Pointer to the inode structure.
- * @param file Pointer to the file structure.
- * @return SUCCESS (0).
- */
 static int data_bus_open(struct inode *inode, struct file *file) {
   printk(KERN_INFO "File opened!\n");
   return SUCCESS;
 }
 
-/**
- * @brief Releases the device file.
- *
- * @param inode Pointer to the inode structure.
- * @param file Pointer to the file structure.
- * @return SUCCESS (0).
- */
 static int data_bus_release(struct inode *inode, struct file *file) {
   return SUCCESS;
 }
 
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Kernel Driver for the GPP Bus DATA_A and DATA_B");
+MODULE_VERSION("0.1");
+
+module_init(data_bus_init);
+module_exit(data_bus_exit);
