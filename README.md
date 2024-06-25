@@ -331,6 +331,11 @@ A exibição final da imagem no monitor, utilizando todos os elementos disponív
    <img width="500" src="docs/final_visualization.png">
 </div>
 
+O resultado da imagem exibida no monitor foi o seguinte:
+<div align="center">
+   <img width="" src="docs/monitor2.jpg">
+</div>
+
 ## Configurações de Ambiente e Execução
 
 Primeiramente, conecte a placa à energia e aos cabos de rede e VGA. Além disso, certifique-se de que a GPU, para a qual a biblioteca foi modelada, está embarcada na FPGA da placa DE1-SoC.
