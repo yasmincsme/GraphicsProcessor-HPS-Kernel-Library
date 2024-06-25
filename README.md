@@ -328,7 +328,7 @@ u64_t set_polygon(polygon_t polygon);
 A exibição final da imagem no monitor, utilizando todos os elementos disponíveis pela GPU (polígonos, sprites, background e background blocks), foi realizada segundo o fluxograma a seguir. Pode-se dividir o envio de instruções para exibição da imagem em 5 partes. A primeira, como a definição do "céu" e da "grama", utilizando a cor azul no fundo e blocos verdes para a grama. A segunda parte, as "árvores" representadas pelas sprites. A terceira, a montagem da "base do castelo" utilizando os polígonos rosas. Já a quarta, com os "telhados" e "porta" do castelo, utilizando polígonos marrom. E, a última etapa, o "sol" amarelo, com um polígono, e as "nuvens" brancas com blocos de background. 
 
 <div align="center">
-   <img width="500" src="docs/final_visualization.png">
+   <img width="700" src="docs/final_visualization.png">
 </div>
 
 O resultado da imagem exibida no monitor foi o seguinte:
