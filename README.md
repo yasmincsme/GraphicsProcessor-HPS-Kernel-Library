@@ -9,18 +9,16 @@ Biblioteca para o processador gráfico projetado, destinada a ser usada com o HP
 - [Recursos utilizados](recursos-utilizados)
     - [Hardware](hardware)
     - [Software e Ferramentas](software-e-ferramentas)
-    - [Bibliotecas e Dependências](bibliotecas-e-dependencias)
+    - [Dependências](dependencias)
 - [Modelagem e Organização da Arquitetura](modelagem-e-organizacao-da-arquitetura)
-    - [Arquitetura do Processador Gráfico](arquitetura-do-processador-grafico)
     - [Instruções do Processador Gráfico](instrucoes-do-processador-grafico)
     - [Protocolo de Comunicação entre o HPS e o Processador Gráfico](protocolo-de-comunicacao-entre-o-hps-e-o-processador-grafico)
-- [Módulo Kernel]()
+- [Módulo Kernel](modulo_kernel)
 - [Desenvolvimento da Biblioteca](desenvolvimento-da-biblioteca)
     - [Comunicação entre a biblioteca e o módulo kernel](comunicacao-entre-a-biblioteca-e-o-modulo-kernel)
     - [Algoritmo para implementação das funções da GPU](Algoritmo-para-implementacao-das-funcoes-da-gpu)
     - [Fluxograma de Exibição da Imagem no Monitor](fluxograma-para-exibicao-da-imagem-no-monitor)
 - [Configurações de ambiente e execução](#configuracoes-de-ambiente-e-execucao)
-- [Referências](#referências)
 
 ## Contextualização
 
