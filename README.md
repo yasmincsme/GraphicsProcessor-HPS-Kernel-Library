@@ -240,7 +240,9 @@ O algoritmo para implementação das funções da GPU consiste basicamente na di
 
 <img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/instruction.jpg">
 
-Para entendê-lo, vamos utilizar a função mais simples da GPU: a troca da cor do background.
+Para entendê-lo, vamos utilizar a função mais simples da GPU: a troca da cor do background. Se executarmos a função `set_background_color(2, 3, 3)`, inicialmente iremos fazer a inicialização das variáveis constantes
+
+
 
 <img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/15.jpg">
 
