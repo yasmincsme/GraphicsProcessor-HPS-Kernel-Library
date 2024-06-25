@@ -281,7 +281,9 @@ A função `write_data()`, como o nome pressupõe, efetua a escrita no arquivo u
 
 ### Fluxograma de Exibição da Imagem no Monitor
 
-<img width="500" src="docs/final-visualization.png">
+<div align="center">
+   <img width="500" src="docs/final-visualization.png">
+</div>
 
 ## Configurações de Ambiente e Execução
 
