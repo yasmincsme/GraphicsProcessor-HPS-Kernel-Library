@@ -9,13 +9,15 @@
 #include "GraphSync.h"
 
 int main(void) {
-  clean_polygon();
-  clean_sprite();
-  clean_background();
+  u16_t offset = 25;
+  sprite_fixed_t new_sprite = set_new_sprite(offset);
 
-  sleep(5);
+  new_sprite.ativo = 1;
+  new_sprite.coord_x = 10;
+  new_sprite.coord_y = 10;
+  new_sprite.data_register = 2;
 
-  draw_picture();
+  set_fixed_sprite(new_sprite);
 
   return 0;
 }
