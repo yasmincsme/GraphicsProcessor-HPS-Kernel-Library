@@ -294,7 +294,7 @@ No passo seguinte, convertemos a string para um valor inteiro na base desejada p
 
 ### Fluxograma de Exibição da Imagem no Monitor
 
-A exibição final da imagem no monitor, utilizando todos os elementos disponíveis pela GPU (polígonos, sprites, background e background blocks), foi realizada seguindo a sequência do fluxograma a seguir. Pode-se dividir a organização do envio de instruções para exibição da imagem em 5 partes. A primeira, como a definição do "céu" e da "grama", utilizando a cor azul no fundo e blocos verdes para a grama. A segunda parte, as "árvores" representadas pelas sprites. A terceira, a montagem da "base do castelo" utilizando os polígonos rosas. Já a quarta, com os "telhados" e "porta" do castelo, utilizando polígonos marrom. E, a última etapa, o "sol" amarelo, com um polígono, e as "nuvens" brancas com blocos de background. 
+A exibição final da imagem no monitor, utilizando todos os elementos disponíveis pela GPU (polígonos, sprites, background e background blocks), foi realizada segundo o fluxograma a seguir. Pode-se dividir o envio de instruções para exibição da imagem em 5 partes. A primeira, como a definição do "céu" e da "grama", utilizando a cor azul no fundo e blocos verdes para a grama. A segunda parte, as "árvores" representadas pelas sprites. A terceira, a montagem da "base do castelo" utilizando os polígonos rosas. Já a quarta, com os "telhados" e "porta" do castelo, utilizando polígonos marrom. E, a última etapa, o "sol" amarelo, com um polígono, e as "nuvens" brancas com blocos de background. 
 
 <div align="center">
    <img width="500" src="docs/final-visualization.png">
