@@ -210,7 +210,7 @@ A função `write_data()`, como o nome pressupõe, efetua a escrita no arquivo u
 
 <img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/close_data.jpg">
 
-Em caso de erro, o programa é finalizado e uma mensagem de erro é emitida no terminal de execução. A assinatura dessas instruções é dada por: 
+Em caso de erro, o programa é finalizado e uma mensagem de erro é emitida no terminal de execução. As assinaturas dessas instruções são dadas por: 
 
 ```C
 /**
@@ -236,7 +236,19 @@ void close_data();
 
 #### Algoritmo para implementação das funções da GPU
 
+O algoritmo para implementação das funções da GPU consiste basicamente na divisão dos dados selecionados pelo usuário entre os barramentos data A e data B. Para isso, desenvolvemos o seguinte algoritmo:
 
+<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/instruction.jpg">
+
+Para entendê-lo, vamos utilizar a função mais simples da GPU: a troca da cor do background.
+
+<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/15.jpg">
+
+<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/16.jpg">
+
+<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/17.jpg">
+
+<img width="" src="https://github.com/yasmincsme/GraphicsProcessor-HPS-Kernel-Library/blob/docs/docs/18.jpg">
 
 #### Fluxograma de Exibição da Imagem no Monitor
 
