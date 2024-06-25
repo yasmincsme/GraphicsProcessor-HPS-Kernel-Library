@@ -186,7 +186,7 @@ No Linux, existe uma grande diferença entre o espaço do Kernel e o espaço do 
 
 Para conectar esses dois espaços, é possível gerar um arquivo (exclusivo para o hardware a ser acessado) que pode ser lido e/ou escrito, através de um driver de carácter, como mostrado no esquema da figura a seguir:
 
-<img width="" src="">
+<img width="" src="docs/Espaço de Usuário.png">
 
 O objetivo principal do módulo de kernel desenvolvido é fornecer uma interface eficiente para escrita e leitura em dois barramentos, DATA A e DATA B, que conectam o processador HPS da placa DE1-SoC ao processador gráfico, facilitando a comunicação e melhorando o desempenho do sistema.
 
