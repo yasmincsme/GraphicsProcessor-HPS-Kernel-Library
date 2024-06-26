@@ -8,7 +8,7 @@ KERNEL_DIR = /lib/modules/$(shell uname -r)/build
 SOURCES =  GraphSync.c  main.c 
 
 # All *.h files.
-HEADERS =  utils/ui.h  utils/types.h  GraphSync.h
+HEADERS =  utils/types.h  GraphSync.h
 
 all: build kernel
 
@@ -17,13 +17,11 @@ build: build/dir build/main
 build/dir:
 	@mkdir -p build
 
-build/main: build/GraphSync.o build/aux.o build/main.o 
-	@gcc build/GraphSync.o build/aux.o build/main.o -o build/main
+build/main: build/GraphSync.o build/main.o 
+	@gcc build/GraphSync.o build/main.o -o build/main
 
-build/aux.o:  utils/aux.c  utils/types.h
-	@gcc -c  utils/aux.c -o build/aux.o -Isrc -Iutils
 
-build/GraphSync.o:  GraphSync.c  GraphSync.h  utils/ui.h  utils/types.h build/aux.o
+build/GraphSync.o:  GraphSync.c  GraphSync.h  utils/ui.h  utils/types.h
 	@gcc -c  GraphSync.c -o build/GraphSync.o -Isrc -Iutils
 
 build/main.o:  main.c  GraphSync.h  utils/ui.h  utils/types.h
