@@ -23,8 +23,15 @@ build/main: build/GraphSync.o build/aux.o build/main.o
 build/aux.o:  utils/aux.c  utils/types.h
 	@gcc -c  utils/aux.c -o build/aux.o -Isrc -Iutils
 
+build/mouse.o: utils/state.h utils/mouse.h utils/types.h 
+	@gcc -c utils/mouse.c -o build/mouse.o -Isrc -Iutils 
+
+build/window.o: utils/window.h utils/types.h 
+	@gcc -c utils/window.c -o build/window.o -Isrc -Iutils
+
 build/GraphSync.o:  GraphSync.c  GraphSync.h  utils/ui.h  utils/types.h build/aux.o
 	@gcc -c  GraphSync.c -o build/GraphSync.o -Isrc -Iutils
+
 
 build/main.o:  main.c  GraphSync.h  utils/ui.h  utils/types.h
 	@gcc -c  main.c -o build/main.o -Isrc -Iutils
