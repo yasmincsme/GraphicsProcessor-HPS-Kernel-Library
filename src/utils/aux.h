@@ -40,4 +40,5 @@ char* itoa(u32_t num, char* str, u32_t base);
  */
 int clamp(int value, int min, int max);
 
+
 #endif  // !AUX_H_
