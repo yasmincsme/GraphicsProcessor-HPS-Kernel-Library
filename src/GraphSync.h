@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 #include "utils/types.h"
-#include "utils/ui.h"
 
 // Structure definition for dynamic sprite
 typedef struct sprite_t sprite_t;
@@ -124,4 +123,4 @@ void clean_polygon();
 
 void clean_background();
 
-void draw_picture();
+sprite_fixed_t set_new_sprite(u16_t sprite_offset);
