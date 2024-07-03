@@ -1,13 +1,13 @@
 from PIL import Image
 
-spritePixels = Image.open("docs\cactus-sprite-pixilart.png")
+spritePixels = Image.open("docs/frog.png")
 
 matrizRGB = []
 rgb = []
 
 for line in range(20):
   for col in range(20):
-    coordinates = line, col
+    coordinates = col, line
     rgbValues = spritePixels.getpixel(coordinates)
     #print(rgbValues[:3])
     rgb.append(rgbValues[:3])
