@@ -99,7 +99,6 @@ int main(void) {
   if (munmap(LW_virtual, LW_BRIDGE_SPAN) != 0) {
     return -1;
   }
-  jhgkjh
 
   close(fd);
 
@@ -124,7 +123,7 @@ int main(void) {
   // set_background_color(1, 1, 1);
 
   // u16_t offset = 25;
-  // sprite_fixed_t new_sprite = set_new_sprite(offset); 
+  // sprite_fixed_t new_sprite = set_new_sprite(offset);
 
   // u16_t center_x = 320;
   // u16_t center_y = 10;
