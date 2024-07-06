@@ -6,6 +6,8 @@
         "ui.h": "c",
         "DATA_A.C": "cpp",
         "data.C": "cpp",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "mman.h": "c",
+        "device_manager.h": "c"
     }
 }
