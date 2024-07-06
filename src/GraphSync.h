@@ -123,6 +123,10 @@ void clean_polygon();
 
 void clean_background();
 
-sprite_fixed_t set_new_sprite(u16_t sprite_offset);
+sprite_t set_new_sprite(u16_t sprite_offset);
 
 void draw_picture();
+
+u8_t increase_coordinate_sprite(sprite_t *sprite);
+
+u8_t collision(sprite_t *sp1, sprite_t *sp2);
