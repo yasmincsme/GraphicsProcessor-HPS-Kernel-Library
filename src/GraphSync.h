@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 #include "utils/types.h"
-#include "utils/ui.h"
 
 // Structure definition for dynamic sprite
 typedef struct sprite_t sprite_t;
@@ -116,3 +115,13 @@ u64_t set_background_color(u32_t R, u32_t G, u32_t B);
  * @return The final instruction that will be send to the device hardware.
  */
 u64_t set_polygon(polygon_t polygon);
+
+void clean_sprite();
+
+void clean_polygon();
+
+void clean_background();
+
+sprite_fixed_t set_new_sprite(u16_t sprite_offset);
+
+void draw_picture();
