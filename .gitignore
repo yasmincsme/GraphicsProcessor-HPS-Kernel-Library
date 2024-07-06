@@ -4,6 +4,7 @@ src/kernel/.gpp_data_bus.ko.cmd
 src/kernel/.gpp_data_bus.mod.cmd
 src/kernel/.gpp_data_bus.mod.o.cmd
 src/kernel/.gpp_data_bus.o.cmd
+src/kernel/.gpp_data_bus.mod
 src/kernel/.modules.order.cmd
 src/kernel/Module.symvers
 src/kernel/gpp_data_bus.ko
